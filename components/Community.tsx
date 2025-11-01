@@ -1,4 +1,4 @@
-import { Community } from '@/data/types';
+import type { Community } from '@/data/types';
 
 interface CommunityProps {
   communities: Community[];
