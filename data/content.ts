@@ -53,18 +53,22 @@ export const pastProjects: Project[] = [
 export const hackathons: Project[] = [
   {
     title: "project lovable",
+    description: "AI-powered project management and collaboration tool built at hackathon",
     link: "https://github.com"
   },
   {
     title: "ef x eleven labs",
+    description: "Voice AI application developed at Entrepreneur First x Eleven Labs hackathon",
     link: "https://github.com"
   },
   {
     title: "AI Find",
+    description: "Intelligent search and discovery tool leveraging AI for enhanced information retrieval",
     link: "https://github.com"
   },
   {
     title: "chatbots aren't dead",
+    description: "Experimental conversational AI interface exploring next-generation chat experiences",
     link: "https://github.com"
   }
 ];
