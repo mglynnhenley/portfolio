@@ -1,4 +1,4 @@
-import { Experience } from '@/data/types';
+import type { Experience } from '@/data/types';
 
 interface ExperienceProps {
   experiences: Experience[];
