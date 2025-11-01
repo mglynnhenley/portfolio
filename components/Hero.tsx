@@ -24,6 +24,12 @@ export default function Hero({ name, title }: HeroProps) {
 
       <nav className="flex flex-wrap gap-6 font-mono text-sm md:text-base">
         <a
+          href="#community"
+          className="underline hover:text-accent-primary transition-colors"
+        >
+          community
+        </a>
+        <a
           href="#projects"
           className="underline hover:text-accent-primary transition-colors"
         >

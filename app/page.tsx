@@ -1,5 +1,6 @@
 import Hero from '@/components/Hero';
 import About from '@/components/About';
+import Community from '@/components/Community';
 import Projects from '@/components/Projects';
 import Hackathons from '@/components/Hackathons';
 import Experience from '@/components/Experience';
@@ -12,7 +13,8 @@ import {
   pastProjects,
   hackathons,
   experiences,
-  pastEvents
+  pastEvents,
+  communities
 } from '@/data/content';
 
 export default function Home() {
@@ -21,6 +23,7 @@ export default function Home() {
       <ThemeToggle />
       <Hero name={personalInfo.name} title={personalInfo.title} />
       <About bio={personalInfo.bio} />
+      <Community communities={communities} />
       <Projects current={currentProjects} past={pastProjects} />
       <Hackathons hackathons={hackathons} />
       <Experience experiences={experiences} />

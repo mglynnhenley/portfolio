@@ -1,4 +1,4 @@
-import { PersonalInfo, Project, Experience, Event } from './types';
+import { PersonalInfo, Project, Experience, Event, Community } from './types';
 
 export const personalInfo: PersonalInfo = {
   name: "matilda glynn-henley",
@@ -11,11 +11,6 @@ export const personalInfo: PersonalInfo = {
 };
 
 export const currentProjects: Project[] = [
-  {
-    title: "threecourses.xyz",
-    description: "VC backed invite only community of technical women working in startups in London",
-    link: "https://threecourses.xyz"
-  },
   {
     title: "OnFabric MCP",
     description: "Building agentic generative interface on top of OnFabric MCP"
@@ -141,5 +136,13 @@ export const pastEvents: Event[] = [
   {
     title: "builders and co",
     link: "https://lu.ma"
+  }
+];
+
+export const communities: Community[] = [
+  {
+    title: "threecourses.xyz",
+    description: "VC backed invite only community of technical women working in startups in London",
+    link: "https://threecourses.xyz"
   }
 ];

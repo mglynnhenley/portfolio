@@ -23,3 +23,9 @@ export interface PersonalInfo {
   email: string;
   bio: string[];
 }
+
+export interface Community {
+  title: string;
+  description: string;
+  link?: string;
+}
