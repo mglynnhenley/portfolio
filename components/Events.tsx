@@ -8,7 +8,7 @@ export default function Events({ events }: EventsProps) {
   return (
     <section
       id="events"
-      className="max-w-4xl mx-auto px-6 py-16 border-t border-grid-line animate-fade-in animate-delay-750"
+      className="max-w-4xl px-6 py-16 border-t border-grid-line animate-fade-in animate-delay-750"
     >
       <h2 className="font-mono text-accent-secondary mb-8 text-sm md:text-base">
         // events i've hosted

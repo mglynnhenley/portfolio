@@ -5,6 +5,7 @@ import Hackathons from '@/components/Hackathons';
 import Experience from '@/components/Experience';
 import Events from '@/components/Events';
 import Footer from '@/components/Footer';
+import ThemeToggle from '@/components/ThemeToggle';
 import {
   personalInfo,
   currentProjects,
@@ -17,6 +18,7 @@ import {
 export default function Home() {
   return (
     <main className="min-h-screen">
+      <ThemeToggle />
       <Hero name={personalInfo.name} title={personalInfo.title} />
       <About bio={personalInfo.bio} />
       <Projects current={currentProjects} past={pastProjects} />

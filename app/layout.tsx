@@ -1,22 +1,24 @@
 import type { Metadata } from "next";
-import { Fraunces, Newsreader, JetBrains_Mono } from "next/font/google";
+import { Space_Mono, IBM_Plex_Mono, Fira_Code } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const spaceMono = Space_Mono({
   subsets: ["latin"],
-  variable: "--font-fraunces",
+  variable: "--font-space-mono",
+  weight: ["400", "700"],
   display: "swap",
 });
 
-const newsreader = Newsreader({
+const ibmPlexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  variable: "--font-newsreader",
+  variable: "--font-ibm-plex-mono",
+  weight: ["300", "400", "500"],
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
+const firaCode = Fira_Code({
   subsets: ["latin"],
-  variable: "--font-jetbrains",
+  variable: "--font-fira-code",
   display: "swap",
 });
 
@@ -36,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${newsreader.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" className={`${spaceMono.variable} ${ibmPlexMono.variable} ${firaCode.variable}`}>
       <body>{children}</body>
     </html>
   );

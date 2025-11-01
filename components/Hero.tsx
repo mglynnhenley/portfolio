@@ -5,11 +5,24 @@ interface HeroProps {
 
 export default function Hero({ name, title }: HeroProps) {
   return (
-    <section className="max-w-4xl mx-auto px-6 pt-20 pb-8 animate-fade-in">
-      <h1 className="text-5xl md:text-6xl font-bold mb-4 tracking-tight">{name}</h1>
-      <p className="text-muted text-lg md:text-xl">{title}</p>
+    <section className="max-w-4xl px-6 pt-20 pb-8 animate-fade-in">
+      <p className="text-muted text-sm md:text-base mb-8 font-mono">
+        currently living at{' '}
+        <a
+          href="https://joinpluto.io"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-accent-secondary hover:text-accent-primary transition-colors underline"
+        >
+          pluto hacker house
+        </a>
+        {' '}in paris
+      </p>
 
-      <nav className="flex flex-wrap gap-6 mt-12 font-mono text-sm md:text-base">
+      <h1 className="text-5xl md:text-6xl font-bold mb-4 tracking-tight">{name}</h1>
+      <p className="text-muted text-lg md:text-xl mb-12">{title}</p>
+
+      <nav className="flex flex-wrap gap-6 font-mono text-sm md:text-base">
         <a
           href="#projects"
           className="underline hover:text-accent-primary transition-colors"

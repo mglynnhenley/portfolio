@@ -33,20 +33,48 @@ export const currentProjects: Project[] = [
 
 export const pastProjects: Project[] = [
   {
+    title: "Data Visualization (JavaScript, D3.js)",
+    description: "Created a front-end project visualising female headliners at UK music festivals",
+    link: "https://femaleheadlinersatukmusicfestival.netlify.app/"
+  },
+  {
+    title: "Legal News Website (Next.js, React, TypeScript)",
+    description: "Built a blog platform with search (prefix search tree for linear time complexity), cached favourites, and email validation",
+    link: "https://github.com/mglynnhenley/legalNews"
+  },
+  {
+    title: "Python Module for Distributed Music Playback (Python, C++)",
+    description: "Developed a module for synchronous music playback across Raspberry Pi devices",
+    link: "https://github.com/mglynnhenley/asynchronousSingingMicrobits"
+  },
+  {
+    title: "Legal Front-End User Flow & Portal (React, TypeScript, Next.js, Java)",
+    description: "User-friendly front-end flow and internal portal for legal case management",
+    link: "https://flow-st.fine.so/en/gambling/desktop"
+  },
+  {
+    title: "Turtle Charity Mobile App (React Native, TypeScript, Express, MS SQL Server)",
+    description: "Built a full-stack charity app with backend and database integration"
+  },
+  {
+    title: "Myla Legal Tech Startup (TypeScript, Next.js, Supabase)",
+    description: "Lead developer for a legal tech student startup, internal portal for legal case management"
+  },
+  {
+    title: "Merantix Investment Memo Generator (Python, Langchain, GPT API)",
+    description: "Created a tool for generating investment memos"
+  },
+  {
+    title: "Tinder Scraper for Oxford Hack (Python, TypeScript, React)",
+    description: "Built a bot to match Tinder profiles with Facebook's Ox-love page (Not submitted due to regulations)"
+  },
+  {
+    title: "ML to detect hidden messages in SVGs (Python - scikit-learn)",
+    description: "Developed a Python tool for detecting hidden messages in images"
+  },
+  {
     title: "START Berlin Female Mentorship",
     description: "connecting 15 founders and VCs to female students"
-  },
-  {
-    title: "public affairs newsletter",
-    description: "public affairs newsletter"
-  },
-  {
-    title: "data visualisation",
-    description: "data visualisation"
-  },
-  {
-    title: "oxford hack project",
-    description: "oxford hack project"
   }
 ];
 
