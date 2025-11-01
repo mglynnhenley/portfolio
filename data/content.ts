@@ -62,7 +62,8 @@ export const pastProjects: Project[] = [
   },
   {
     title: "Merantix Investment Memo Generator (Python, Langchain, GPT API)",
-    description: "Created a tool for generating investment memos"
+    description: "Created a tool for generating investment memos",
+    link: "https://github.com/mglynnhenley/deal_evaluator"
   },
   {
     title: "Tinder Scraper for Oxford Hack (Python, TypeScript, React)",
