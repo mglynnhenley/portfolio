@@ -12,7 +12,7 @@ export default function Projects({ current, past }: ProjectsProps) {
       className="max-w-4xl px-6 py-16 border-t border-grid-line animate-fade-in animate-delay-300"
     >
       <h2 className="font-mono text-accent-secondary mb-8 text-sm md:text-base">
-        // stuff on the side
+        // projects
       </h2>
 
       <div className="space-y-8">

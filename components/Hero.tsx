@@ -27,7 +27,7 @@ export default function Hero({ name, title }: HeroProps) {
           href="#projects"
           className="underline hover:text-accent-primary transition-colors"
         >
-          stuff on the side
+          projects
         </a>
         <a
           href="#hackathons"
@@ -39,13 +39,13 @@ export default function Hero({ name, title }: HeroProps) {
           href="#events"
           className="underline hover:text-accent-primary transition-colors"
         >
-          events i've hosted
+          events
         </a>
         <a
           href="#experience"
           className="underline hover:text-accent-primary transition-colors"
         >
-          things i've done
+          experience
         </a>
       </nav>
     </section>
