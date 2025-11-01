@@ -41,3 +41,4 @@ npm run build  # Test production build
 ## Design
 
 See `docs/plans/2025-11-01-portfolio-design.md` for complete design documentation.
+# portfolio
