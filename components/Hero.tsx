@@ -7,7 +7,9 @@ export default function Hero({ name, title }: HeroProps) {
   return (
     <section className="max-w-4xl px-6 pt-20 pb-8 animate-fade-in">
       <p className="text-muted text-sm md:text-base mb-8 font-mono">
-        currently living at{' '}
+        currently living in{' '}
+        <span className="text-accent-primary font-bold">paris</span>
+        {' '}at{' '}
         <a
           href="https://joinpluto.io"
           target="_blank"
@@ -16,7 +18,6 @@ export default function Hero({ name, title }: HeroProps) {
         >
           pluto hacker house
         </a>
-        {' '}in paris
       </p>
 
       <h1 className="text-5xl md:text-6xl font-bold mb-4 tracking-tight">{name}</h1>
@@ -24,16 +25,16 @@ export default function Hero({ name, title }: HeroProps) {
 
       <nav className="flex flex-wrap gap-6 font-mono text-sm md:text-base">
         <a
-          href="#community"
-          className="underline hover:text-accent-primary transition-colors"
-        >
-          community
-        </a>
-        <a
           href="#projects"
           className="underline hover:text-accent-primary transition-colors"
         >
           projects
+        </a>
+        <a
+          href="#community"
+          className="underline hover:text-accent-primary transition-colors"
+        >
+          community
         </a>
         <a
           href="#hackathons"

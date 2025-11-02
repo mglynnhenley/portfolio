@@ -23,8 +23,8 @@ export default function Home() {
       <ThemeToggle />
       <Hero name={personalInfo.name} title={personalInfo.title} />
       <About bio={personalInfo.bio} />
-      <Community communities={communities} />
       <Projects current={currentProjects} past={pastProjects} />
+      <Community communities={communities} />
       <Hackathons hackathons={hackathons} />
       <Experience experiences={experiences} />
       <Events events={pastEvents} />

@@ -26,9 +26,9 @@ export default function Projects({ current, past }: ProjectsProps) {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline hover:text-accent-primary transition-colors"
+                    className="text-accent-secondary font-semibold underline hover:text-accent-primary transition-colors"
                   >
-                    {project.title}
+                    {project.title} →
                   </a>
                 ) : (
                   <span className="font-medium">{project.title}</span>
@@ -50,9 +50,9 @@ export default function Projects({ current, past }: ProjectsProps) {
                     href={project.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline hover:text-accent-primary transition-colors"
+                    className="text-accent-secondary font-semibold underline hover:text-accent-primary transition-colors"
                   >
-                    {project.title}
+                    {project.title} →
                   </a>
                 ) : (
                   <span>{project.title}</span>
