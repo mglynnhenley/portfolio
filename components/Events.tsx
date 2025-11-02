@@ -8,14 +8,14 @@ export default function Events({ events }: EventsProps) {
   return (
     <section
       id="events"
-      className="max-w-4xl px-6 py-16 border-t border-grid-line animate-fade-in animate-delay-750"
+      className="max-w-4xl px-6 py-8 border-t border-grid-line animate-fade-in animate-delay-750"
     >
-      <h2 className="font-mono text-accent-secondary mb-8 text-sm md:text-base">
+      <h2 className="font-mono text-accent-secondary mb-4 text-xs">
         // events
       </h2>
       <div>
-        <h3 className="font-semibold mb-3 text-foreground">past</h3>
-        <ul className="space-y-2.5">
+        <h3 className="font-semibold mb-2 text-foreground text-sm">past</h3>
+        <ul className="space-y-1.5">
           {events.map((event, index) => (
             <li key={index} className="text-muted leading-relaxed">
               {event.link ? (

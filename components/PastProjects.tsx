@@ -1,20 +1,20 @@
 import { Project } from '@/data/types';
 
-interface ProjectsProps {
+interface PastProjectsProps {
   projects: Project[];
 }
 
-export default function Projects({ projects }: ProjectsProps) {
+export default function PastProjects({ projects }: PastProjectsProps) {
   return (
     <section
-      id="projects"
-      className="max-w-4xl px-6 py-8 border-t border-grid-line animate-fade-in animate-delay-300"
+      id="past-projects"
+      className="max-w-4xl px-6 py-16 border-t border-grid-line animate-fade-in animate-delay-750"
     >
-      <h2 className="font-mono text-accent-secondary mb-4 text-xs">
-        // current projects
+      <h2 className="font-mono text-accent-secondary mb-8 text-sm md:text-base">
+        // past projects
       </h2>
 
-      <ul className="space-y-1.5">
+      <ul className="space-y-2.5">
         {projects.map((project, index) => (
           <li key={index} className="text-muted leading-relaxed">
             {project.link ? (
@@ -27,10 +27,9 @@ export default function Projects({ projects }: ProjectsProps) {
                 {project.title} →
               </a>
             ) : (
-              <span className="font-medium">{project.title}</span>
+              <span>{project.title}</span>
             )}
-            {' — '}
-            {project.description}
+            {project.description && ` — ${project.description}`}
           </li>
         ))}
       </ul>

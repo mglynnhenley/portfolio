@@ -1,24 +1,24 @@
 import type { Metadata } from "next";
-import { Space_Mono, IBM_Plex_Mono, Fira_Code } from "next/font/google";
+import { JetBrains_Mono, Anonymous_Pro, Courier_Prime } from "next/font/google";
 import "./globals.css";
 
-const spaceMono = Space_Mono({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-space-mono",
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+});
+
+const anonymousPro = Anonymous_Pro({
+  subsets: ["latin"],
+  variable: "--font-anonymous-pro",
   weight: ["400", "700"],
   display: "swap",
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
+const courierPrime = Courier_Prime({
   subsets: ["latin"],
-  variable: "--font-ibm-plex-mono",
-  weight: ["300", "400", "500"],
-  display: "swap",
-});
-
-const firaCode = Fira_Code({
-  subsets: ["latin"],
-  variable: "--font-fira-code",
+  variable: "--font-courier-prime",
+  weight: ["400", "700"],
   display: "swap",
 });
 
@@ -38,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${spaceMono.variable} ${ibmPlexMono.variable} ${firaCode.variable}`}>
+    <html lang="en" className={`${jetbrainsMono.variable} ${anonymousPro.variable} ${courierPrime.variable}`}>
       <body>{children}</body>
     </html>
   );

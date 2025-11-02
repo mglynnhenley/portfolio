@@ -5,8 +5,8 @@ interface HeroProps {
 
 export default function Hero({ name, title }: HeroProps) {
   return (
-    <section className="max-w-4xl px-6 pt-20 pb-8 animate-fade-in">
-      <p className="text-muted text-sm md:text-base mb-8 font-mono">
+    <section className="max-w-4xl px-6 pt-12 pb-6 animate-fade-in">
+      <p className="text-muted text-xs mb-4 font-mono">
         currently living in{' '}
         <span className="text-accent-primary font-bold">paris</span>
         {' '}at{' '}
@@ -20,10 +20,10 @@ export default function Hero({ name, title }: HeroProps) {
         </a>
       </p>
 
-      <h1 className="text-5xl md:text-6xl font-bold mb-4 tracking-tight">{name}</h1>
-      <p className="text-muted text-lg md:text-xl mb-12">{title}</p>
+      <h1 className="text-3xl md:text-4xl font-bold mb-2 tracking-tight">{name}</h1>
+      <p className="text-muted text-base md:text-lg mb-6">{title}</p>
 
-      <nav className="flex flex-wrap gap-6 font-mono text-sm md:text-base">
+      <nav className="flex flex-wrap gap-4 font-mono text-xs">
         <a
           href="#projects"
           className="underline hover:text-accent-primary transition-colors"
