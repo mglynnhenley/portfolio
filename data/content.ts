@@ -5,24 +5,25 @@ export const personalInfo: PersonalInfo = {
   title: "investor @ merantix",
   email: "matilda @ merantix dot com",
   bio: [
-    "I'm a pre-seed VC at Merantix Capital where we invest at the AI Application layer (check it out here). Previously I founded a company using AI to solve the housing crisis and was a software engineer. I studied CS at Oxford.",
+    "I'm a pre-seed VC at Merantix Capital where we invest at the AI Application layer (check it out here https://www.merantix-capital.com/). Previously I founded a company using AI to solve the housing crisis and was a software engineer. I studied CS at Oxford.",
     "If you are building something cool my (work) email is matilda @ merantix dot com."
   ]
 };
 
 export const currentProjects: Project[] = [
   {
-    title: "OnFabric MCP",
-    description: "Building agentic generative interface on top of OnFabric MCP"
+    title: "OnFabric Generative Interfaces",
+    description: "Building agentic generative interface on top of OnFabric MCP",
+    link: "https://github.com/mglynnhenley/onfabric-demo"
   },
   {
-    title: "highlighting knowledge project",
-    description: "personal knowledge graph based on what you read",
-    link: "https://github.com"
+    title: "Pluto Hacker House",
+    description: "Living in Paris and running operations @ pluto",
+    link: "https://joinpluto.io"
   },
   {
-    title: "blue dot impact course",
-    description: "blue dot impact course"
+    title: "Blue Dot dot AGI Strategy",
+    description: "Exploring AI Control Defenses"
   }
 ];
 
@@ -33,14 +34,9 @@ export const pastProjects: Project[] = [
     link: "https://femaleheadlinersatukmusicfestival.netlify.app/"
   },
   {
-    title: "Legal News Website (Next.js, React, TypeScript)",
-    description: "Built a blog platform with search (prefix search tree for linear time complexity), cached favourites, and email validation",
-    link: "https://github.com/mglynnhenley/legalNews"
-  },
-  {
-    title: "Python Module for Distributed Music Playback (Python, C++)",
-    description: "Developed a module for synchronous music playback across Raspberry Pi devices",
-    link: "https://github.com/mglynnhenley/asynchronousSingingMicrobits"
+    title: "Investment Memo Generator (Python, Langchain)",
+    description: "Agentic workflow for generating investment memos",
+    link: "https://github.com/mglynnhenley/deal_evaluator"
   },
   {
     title: "Legal Front-End User Flow & Portal (React, TypeScript, Next.js, Java)",
@@ -52,15 +48,6 @@ export const pastProjects: Project[] = [
     description: "Built a full-stack charity app with backend and database integration"
   },
   {
-    title: "Myla Legal Tech Startup (TypeScript, Next.js, Supabase)",
-    description: "Lead developer for a legal tech student startup, internal portal for legal case management"
-  },
-  {
-    title: "Merantix Investment Memo Generator (Python, Langchain, GPT API)",
-    description: "Created a tool for generating investment memos",
-    link: "https://github.com/mglynnhenley/deal_evaluator"
-  },
-  {
     title: "Tinder Scraper for Oxford Hack (Python, TypeScript, React)",
     description: "Built a bot to match Tinder profiles with Facebook's Ox-love page (Not submitted due to regulations)"
   },
@@ -69,9 +56,15 @@ export const pastProjects: Project[] = [
     description: "Developed a Python tool for detecting hidden messages in images"
   },
   {
-    title: "START Berlin Female Mentorship",
-    description: "connecting 15 founders and VCs to female students"
-  }
+    title: "Python Module for Distributed Music Playback (Python, C++)",
+    description: "Developed a module for synchronous music playback across Raspberry Pi devices",
+    link: "https://github.com/mglynnhenley/asynchronousSingingMicrobits"
+  },
+  {
+    title: "Legal News Website (Next.js, React, TypeScript)",
+    description: "Built a blog platform with search (prefix search tree for linear time complexity), cached favourites, and email validation",
+    link: "https://github.com/mglynnhenley/legalNews"
+  },
 ];
 
 export const hackathons: Project[] = [
@@ -108,7 +101,7 @@ export const experiences: Experience[] = [
     title: "Founder",
     company: "Parlia AI",
     period: "March 2024 - 2025",
-    description: "AI planning policy tool; YC interview stage, secured EXIST funding"
+    description: "AI planning policy tool; secured EXIST funding"
   },
   {
     title: "Software Developer",
@@ -144,5 +137,9 @@ export const communities: Community[] = [
     title: "threecourses.xyz",
     description: "VC backed invite only community of technical women working in startups in London",
     link: "https://threecourses.xyz"
-  }
+  },
+  {
+    title: "Founder of START Berlin Female Mentorship",
+    description: "connecting 15 founders and VCs to female students"
+  },
 ];
