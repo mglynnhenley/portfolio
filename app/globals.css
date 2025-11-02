@@ -43,11 +43,12 @@ body {
   background-color: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-body), monospace;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
   background-image:
     linear-gradient(to right, var(--color-grid-line) 1px, transparent 1px),
     linear-gradient(to bottom, var(--color-grid-line) 1px, transparent 1px);
-  background-size: 30px 30px;
+  background-size: 20px 20px;
   transition: background-image 0.3s ease;
 }
 

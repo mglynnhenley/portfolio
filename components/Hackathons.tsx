@@ -28,7 +28,6 @@ export default function Hackathons({ hackathons }: HackathonsProps) {
             ) : (
               <span className="font-medium">{hackathon.title}</span>
             )}
-            {hackathon.description && ` — ${hackathon.description}`}
           </li>
         ))}
       </ul>
