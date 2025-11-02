@@ -130,15 +130,17 @@ const DotBackground = () => {
   }, [allDots, lastColorIndex]);
 
   const getOpacity = (dotX: number, dotY: number) => {
-    const distance = Math.sqrt(
-      Math.pow(mousePosition.x - dotX, 2) + Math.pow(mousePosition.y - dotY, 2)
-    );
+    const dx = Math.abs(mousePosition.x - dotX);
+    const dy = Math.abs(mousePosition.y - dotY);
 
-    // Darken dots within 200px of cursor
+    // Quick rejection using Manhattan distance (cheaper than Euclidean)
+    if (dx + dy > 300) return 0.1; // ~200px radius in Euclidean space
+
+    const distance = Math.sqrt(dx * dx + dy * dy);
     if (distance < 200) {
-      return 0.3 - (distance / 200) * 0.2; // Fade from 0.3 to 0.1
+      return 0.3 - (distance / 200) * 0.2;
     }
-    return 0.1; // Subtle default
+    return 0.1;
   };
 
   return (
