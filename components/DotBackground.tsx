@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
 interface Flower {
   x1: number;
@@ -10,6 +10,15 @@ interface Flower {
   id: string;
   color: string;
 }
+
+// Earth tone palette (terracotta, burnt sienna, clay, rust, warm gray-brown)
+const EARTH_TONE_COLORS = [
+  '15 60% 58%',  // Terracotta
+  '20 50% 50%',  // Burnt sienna
+  '30 45% 55%',  // Clay
+  '10 55% 52%',  // Rust
+  '25 20% 45%',  // Warm gray-brown
+];
 
 const DotBackground = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -33,12 +42,15 @@ const DotBackground = () => {
   const dotsX = typeof window !== 'undefined' ? Math.ceil(window.innerWidth / spacing) : 0;
   const dotsY = Math.ceil(contentHeight / spacing);
 
-  // Generate all dot positions
-  const allDots = Array.from({ length: dotsY }).flatMap((_, y) =>
-    Array.from({ length: dotsX }).map((_, x) => ({
-      x: x * spacing + spacing / 2,
-      y: y * spacing + spacing / 2,
-    }))
+  // Generate all dot positions (memoized to avoid recalculation)
+  const allDots = useMemo(() =>
+    Array.from({ length: dotsY }).flatMap((_, y) =>
+      Array.from({ length: dotsX }).map((_, x) => ({
+        x: x * spacing + spacing / 2,
+        y: y * spacing + spacing / 2,
+      }))
+    ),
+    [dotsX, dotsY, spacing]
   );
 
   useEffect(() => {
@@ -67,8 +79,18 @@ const DotBackground = () => {
       const clickX = e.clientX;
       const clickY = e.clientY + window.scrollY;
 
-      // Find nearest two dots
-      const distances = allDots.map((dot) => ({
+      // Performance optimization: spatial filtering before distance calculation
+      const FILTER_RADIUS = 300; // Only check dots within 300px
+
+      // Step 1: Filter dots using Manhattan distance (faster than Euclidean)
+      const nearbyDots = allDots.filter((dot) => {
+        const dx = Math.abs(clickX - dot.x);
+        const dy = Math.abs(clickY - dot.y);
+        return dx + dy <= FILTER_RADIUS * 1.5; // Manhattan distance approximation
+      });
+
+      // Step 2: Calculate Euclidean distance only for nearby dots
+      const distances = nearbyDots.map((dot) => ({
         dot,
         distance: Math.sqrt(
           Math.pow(clickX - dot.x, 2) + Math.pow(clickY - dot.y, 2)
@@ -79,19 +101,10 @@ const DotBackground = () => {
       const nearestTwo = distances.slice(0, 2);
 
       if (nearestTwo.length === 2) {
-        // Earth tone palette (terracotta, burnt sienna, clay, rust, warm gray-brown)
-        const colors = [
-          '15 60% 58%',  // Terracotta
-          '20 50% 50%',  // Burnt sienna
-          '30 45% 55%',  // Clay
-          '10 55% 52%',  // Rust
-          '25 20% 45%',  // Warm gray-brown
-        ];
-
         // Get a different color from the last one
-        let colorIndex = Math.floor(Math.random() * colors.length);
-        while (colorIndex === lastColorIndex && colors.length > 1) {
-          colorIndex = Math.floor(Math.random() * colors.length);
+        let colorIndex = Math.floor(Math.random() * EARTH_TONE_COLORS.length);
+        while (colorIndex === lastColorIndex && EARTH_TONE_COLORS.length > 1) {
+          colorIndex = Math.floor(Math.random() * EARTH_TONE_COLORS.length);
         }
         setLastColorIndex(colorIndex);
 
@@ -101,7 +114,7 @@ const DotBackground = () => {
           x2: nearestTwo[1].dot.x,
           y2: nearestTwo[1].dot.y,
           id: `flower-${Date.now()}-${Math.random()}`,
-          color: colors[colorIndex],
+          color: EARTH_TONE_COLORS[colorIndex],
         };
 
         // Limit to 30 flowers max
