@@ -129,7 +129,45 @@ const DotBackground = () => {
     return () => window.removeEventListener('click', handleClick);
   }, [allDots, lastColorIndex]);
 
-  return <div>Placeholder</div>;
+  const getOpacity = (dotX: number, dotY: number) => {
+    const distance = Math.sqrt(
+      Math.pow(mousePosition.x - dotX, 2) + Math.pow(mousePosition.y - dotY, 2)
+    );
+
+    // Darken dots within 200px of cursor
+    if (distance < 200) {
+      return 0.3 - (distance / 200) * 0.2; // Fade from 0.3 to 0.1
+    }
+    return 0.1; // Subtle default
+  };
+
+  return (
+    <>
+      {/* Dot grid */}
+      <div
+        className="fixed inset-0 pointer-events-none z-0"
+        style={{ height: `${contentHeight}px` }}
+      >
+        {allDots.map((dot, index) => {
+          const dotX = dot.x;
+          const dotY = dot.y;
+
+          return (
+            <div
+              key={index}
+              className="absolute w-[2px] h-[2px] rounded-full transition-opacity duration-100"
+              style={{
+                left: `${dotX}px`,
+                top: `${dotY}px`,
+                backgroundColor: '#E8DFD0', // Warm tan
+                opacity: getOpacity(dotX, dotY),
+              }}
+            />
+          );
+        })}
+      </div>
+    </>
+  );
 };
 
 export default DotBackground;
