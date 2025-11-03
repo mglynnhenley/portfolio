@@ -1,11 +1,41 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+
 interface HeroProps {
   name: string;
   title: string;
 }
 
 export default function Hero({ name, title }: HeroProps) {
+  const [displayedText, setDisplayedText] = useState('');
+  const fullText = 'click to draw';
+
+  useEffect(() => {
+    let currentIndex = 0;
+    const interval = setInterval(() => {
+      if (currentIndex <= fullText.length) {
+        setDisplayedText(fullText.slice(0, currentIndex));
+        currentIndex++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 100); // 100ms per character for handwriting effect
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="max-w-[900px] px-20 pt-40 pb-32 animate-fade-in">
+      <span
+        className="text-xl opacity-40 mb-3 block"
+        style={{
+          fontFamily: 'var(--font-caveat)',
+        }}
+      >
+        {displayedText}
+      </span>
+
       <p className="text-foreground text-xs mb-6 font-mono">
         currently living in{' '}
         <span className="text-accent-primary font-bold">paris</span>

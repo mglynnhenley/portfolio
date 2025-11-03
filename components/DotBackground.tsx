@@ -1,8 +1,6 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
-import { supabase } from '@/lib/supabase';
-import type { Flower as DBFlower } from '@/lib/supabase';
 
 interface Flower {
   x1: number;
@@ -11,6 +9,7 @@ interface Flower {
   y2: number;
   id: string;
   color: string;
+  skipAnimation?: boolean;
 }
 
 // Navy only - restrained Swiss palette
@@ -34,80 +33,6 @@ const DotBackground = () => {
     window.addEventListener('resize', updateHeight);
     return () => window.removeEventListener('resize', updateHeight);
   }, []);
-
-  // Load flowers from Supabase on mount (optional - graceful degradation)
-  useEffect(() => {
-    // Only try Supabase if credentials are configured
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    if (!supabaseUrl) {
-      return; // Skip Supabase if not configured
-    }
-
-    const loadFlowers = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('flowers')
-          .select('*')
-          .order('created_at', { ascending: true });
-
-        if (data && !error) {
-          const loadedFlowers: Flower[] = data.map((f: DBFlower) => ({
-            x1: Number(f.x1),
-            y1: Number(f.y1),
-            x2: Number(f.x2),
-            y2: Number(f.y2),
-            id: f.id,
-            color: f.color,
-          }));
-          setFlowers(loadedFlowers);
-        }
-      } catch (err) {
-        // Silently fail - work in local-only mode
-      }
-    };
-
-    loadFlowers();
-
-    // Subscribe to real-time updates
-    try {
-      const channel = supabase
-        .channel('flowers-changes')
-        .on(
-          'postgres_changes',
-          { event: 'INSERT', schema: 'public', table: 'flowers' },
-          (payload) => {
-            const newFlower = payload.new as DBFlower;
-            setFlowers((prev) => [
-              ...prev,
-              {
-                x1: Number(newFlower.x1),
-                y1: Number(newFlower.y1),
-                x2: Number(newFlower.x2),
-                y2: Number(newFlower.y2),
-                id: newFlower.id,
-                color: newFlower.color,
-              },
-            ]);
-          }
-        )
-        .on(
-          'postgres_changes',
-          { event: 'DELETE', schema: 'public', table: 'flowers' },
-          () => {
-            // When flowers are cleared, remove all
-            setFlowers([]);
-          }
-        )
-        .subscribe();
-
-      return () => {
-        supabase.removeChannel(channel);
-      };
-    } catch (err) {
-      // Silently fail - work in local-only mode
-    }
-  }, []);
-
 
   const dotsX = typeof window !== 'undefined' ? Math.ceil(window.innerWidth / spacing) : 0;
   const dotsY = Math.ceil(contentHeight / spacing);
@@ -188,24 +113,8 @@ const DotBackground = () => {
           color: FLOWER_COLOR,
         };
 
-        // Add flower locally first (instant feedback)
+        // Add flower locally
         setFlowers((prev) => [...prev, newFlower]);
-
-        // Try to save to Supabase if configured (will sync to other users)
-        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-        if (supabaseUrl) {
-          try {
-            supabase.from('flowers').insert([{
-              x1: newFlower.x1,
-              y1: newFlower.y1,
-              x2: newFlower.x2,
-              y2: newFlower.y2,
-              color: newFlower.color,
-            }]);
-          } catch (err) {
-            // Silently fail - flower is already shown locally
-          }
-        }
       }
     };
 
@@ -239,7 +148,9 @@ const DotBackground = () => {
               strokeLinecap="round"
               strokeLinejoin="round"
               opacity={0.3}
-              style={{
+              style={flower.skipAnimation ? {
+                strokeDasharray: 'none'
+              } : {
                 strokeDasharray: index === 0 ? '2500' : '500',
                 strokeDashoffset: index === 0 ? '2500' : '500',
                 animation: `drawPath ${index === 0 ? '3s' : '1.5s'} ease-out ${index === 0 ? '0s' : '3s'} forwards`

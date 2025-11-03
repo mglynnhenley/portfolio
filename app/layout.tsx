@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, DM_Sans } from "next/font/google";
+import { JetBrains_Mono, DM_Sans, Caveat } from "next/font/google";
 import "./globals.css";
 import DotBackground from "@/components/DotBackground";
 
@@ -13,6 +13,12 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-dm-sans",
   weight: ["400", "700"],
+  display: "swap",
+});
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  variable: "--font-caveat",
   display: "swap",
 });
 
@@ -32,7 +38,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${jetbrainsMono.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${jetbrainsMono.variable} ${dmSans.variable} ${caveat.variable}`}>
       <body className="relative">
         <DotBackground />
         <div className="relative z-10">{children}</div>
