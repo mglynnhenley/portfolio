@@ -38,7 +38,10 @@ html {
 }
 
 body {
-  background-color: var(--color-background);
+  background:
+    radial-gradient(circle at 10% 20%, rgba(255, 20, 147, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(0, 206, 209, 0.03) 0%, transparent 50%),
+    var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-body), monospace;
   font-size: 1rem;
@@ -67,4 +70,32 @@ h1, h2, h3, h4, h5, h6 {
 
 .animate-delay-750 {
   animation-delay: 750ms;
+}
+
+/* Playful link styles */
+a {
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-accent-primary);
+}
+
+a.underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+a.underline:hover::after {
+  transform: scaleX(0);
+  transform-origin: right;
 }

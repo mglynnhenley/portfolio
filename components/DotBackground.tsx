@@ -32,6 +32,7 @@ const DotBackground = () => {
   const [flowers, setFlowers] = useState<Flower[]>([]);
   const [lastColorIndex, setLastColorIndex] = useState(-1);
   const [contentHeight, setContentHeight] = useState(0);
+  const [showHint, setShowHint] = useState(true);
 
   // Create a grid of dots
   const spacing = 60; // pixels between dots (ma - breathing room)
@@ -44,6 +45,37 @@ const DotBackground = () => {
     updateHeight();
     window.addEventListener('resize', updateHeight);
     return () => window.removeEventListener('resize', updateHeight);
+  }, []);
+
+  // Add initial flowers on mount
+  useEffect(() => {
+    if (typeof window === 'undefined' || contentHeight === 0) return;
+
+    const initialFlowers: Flower[] = [];
+    const numInitialFlowers = 4;
+
+    for (let i = 0; i < numInitialFlowers; i++) {
+      const x = Math.random() * window.innerWidth;
+      const y = Math.random() * contentHeight;
+      const colorIndex = Math.floor(Math.random() * FLOWER_COLORS.length);
+
+      initialFlowers.push({
+        x1: x,
+        y1: y,
+        x2: x + (Math.random() * 100 - 50),
+        y2: y + (Math.random() * 100 - 50),
+        id: `initial-flower-${i}`,
+        color: FLOWER_COLORS[colorIndex],
+      });
+    }
+
+    setFlowers(initialFlowers);
+  }, [contentHeight]);
+
+  // Hide hint after first click or after 8 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => setShowHint(false), 8000);
+    return () => clearTimeout(timer);
   }, []);
 
   const dotsX = typeof window !== 'undefined' ? Math.ceil(window.innerWidth / spacing) : 0;
@@ -71,6 +103,9 @@ const DotBackground = () => {
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
+      // Hide hint on first click
+      if (showHint) setShowHint(false);
+
       // Don't draw flowers if clicking on interactive elements
       const target = e.target as HTMLElement;
       if (
@@ -131,7 +166,7 @@ const DotBackground = () => {
 
     window.addEventListener('click', handleClick);
     return () => window.removeEventListener('click', handleClick);
-  }, [allDots, lastColorIndex]);
+  }, [allDots, lastColorIndex, showHint]);
 
   const getFlowerPaths = (): string[] => {
     return [
@@ -187,6 +222,15 @@ const DotBackground = () => {
 
   return (
     <>
+      {/* User hint */}
+      {showHint && (
+        <div className="fixed top-8 right-8 z-50 pointer-events-none animate-fade-in">
+          <div className="bg-foreground text-background px-4 py-2 rounded-full font-mono text-xs shadow-lg animate-pulse">
+            click anywhere to grow flowers ✿
+          </div>
+        </div>
+      )}
+
       {/* Dot grid */}
       <div
         className="absolute inset-0 pointer-events-none z-0"
