@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { JetBrains_Mono, Anonymous_Pro, Courier_Prime } from "next/font/google";
+import { JetBrains_Mono, DM_Sans } from "next/font/google";
 import "./globals.css";
 import DotBackground from "@/components/DotBackground";
 
@@ -9,16 +9,9 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const anonymousPro = Anonymous_Pro({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-anonymous-pro",
-  weight: ["400", "700"],
-  display: "swap",
-});
-
-const courierPrime = Courier_Prime({
-  subsets: ["latin"],
-  variable: "--font-courier-prime",
+  variable: "--font-dm-sans",
   weight: ["400", "700"],
   display: "swap",
 });
@@ -39,7 +32,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${jetbrainsMono.variable} ${anonymousPro.variable} ${courierPrime.variable}`}>
+    <html lang="en" className={`${jetbrainsMono.variable} ${dmSans.variable}`}>
       <body className="relative">
         <DotBackground />
         <div className="relative z-10">{children}</div>

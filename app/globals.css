@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #FFFFFF;
-  --color-foreground: #1a1a1a;
-  --color-accent-primary: #FF1493;
-  --color-accent-secondary: #00CED1;
-  --color-muted: #4a4a4a;
-  --color-grid-line: #E5E5E5;
-  --color-grid-line-hover: #CCCCCC;
+  --color-background: #FAF9F6;
+  --color-foreground: #1B263B;
+  --color-accent-primary: #FF6B35;
+  --color-accent-secondary: #1B263B;
+  --color-muted: #1B263B;
+  --color-grid-line: #1B263B;
+  --color-grid-line-hover: #1B263B;
 
-  --font-heading: var(--font-courier-prime);
+  --font-heading: var(--font-dm-sans);
   --font-body: var(--font-jetbrains-mono);
-  --font-mono: var(--font-anonymous-pro);
+  --font-mono: var(--font-jetbrains-mono);
 
   --animate-fade-in: fadeIn 0.6s ease-out forwards;
 }
@@ -38,14 +38,11 @@ html {
 }
 
 body {
-  background:
-    radial-gradient(circle at 10% 20%, rgba(255, 20, 147, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 90% 80%, rgba(0, 206, 209, 0.03) 0%, transparent 50%),
-    var(--color-background);
+  background-color: var(--color-background);
   color: var(--color-foreground);
   font-family: var(--font-body), monospace;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 0.95rem;
+  line-height: 1.7;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -72,30 +69,7 @@ h1, h2, h3, h4, h5, h6 {
   animation-delay: 750ms;
 }
 
-/* Playful link styles */
-a {
-  position: relative;
-  transition: color 0.2s ease;
-}
-
+/* Clean link styles */
 a:hover {
   color: var(--color-accent-primary);
-}
-
-a.underline::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
-  transform: scaleX(1);
-  transform-origin: left;
-  transition: transform 0.3s ease;
-}
-
-a.underline:hover::after {
-  transform: scaleX(0);
-  transform-origin: right;
 }

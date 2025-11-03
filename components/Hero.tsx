@@ -5,8 +5,8 @@ interface HeroProps {
 
 export default function Hero({ name, title }: HeroProps) {
   return (
-    <section className="max-w-4xl px-6 pt-20 pb-12 animate-fade-in">
-      <p className="text-muted text-xs mb-4 font-mono">
+    <section className="max-w-[900px] px-20 pt-40 pb-32 animate-fade-in">
+      <p className="text-foreground text-xs mb-6 font-mono">
         currently living in{' '}
         <span className="text-accent-primary font-bold">paris</span>
         {' '}at{' '}
@@ -14,43 +14,43 @@ export default function Hero({ name, title }: HeroProps) {
           href="https://joinpluto.io"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-accent-secondary hover:text-accent-primary transition-colors underline"
+          className="text-foreground hover:text-accent-primary"
         >
           pluto hacker house
         </a>
       </p>
 
-      <h1 className="text-3xl md:text-4xl font-bold mb-2 tracking-tight">{name}</h1>
-      <p className="text-muted text-base md:text-lg mb-6">{title}</p>
+      <h1 className="text-5xl font-bold mb-4 text-accent-primary">{name}</h1>
+      <p className="text-foreground text-lg mb-8">{title}</p>
 
-      <nav className="flex flex-wrap gap-4 font-mono text-xs">
+      <nav className="flex flex-wrap gap-6 font-mono text-xs">
         <a
           href="#projects"
-          className="underline hover:text-accent-primary transition-colors"
+          className="text-foreground hover:text-accent-primary"
         >
           projects
         </a>
         <a
           href="#community"
-          className="underline hover:text-accent-primary transition-colors"
+          className="text-foreground hover:text-accent-primary"
         >
           community
         </a>
         <a
           href="#hackathons"
-          className="underline hover:text-accent-primary transition-colors"
+          className="text-foreground hover:text-accent-primary"
         >
           hackathons
         </a>
         <a
           href="#events"
-          className="underline hover:text-accent-primary transition-colors"
+          className="text-foreground hover:text-accent-primary"
         >
           events
         </a>
         <a
           href="#experience"
-          className="underline hover:text-accent-primary transition-colors"
+          className="text-foreground hover:text-accent-primary"
         >
           experience
         </a>

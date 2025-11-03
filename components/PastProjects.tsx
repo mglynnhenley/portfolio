@@ -8,26 +8,26 @@ export default function PastProjects({ projects }: PastProjectsProps) {
   return (
     <section
       id="past-projects"
-      className="max-w-4xl px-6 py-16 border-t border-grid-line animate-fade-in animate-delay-750"
+      className="max-w-[900px] px-20 py-30 border-t border-foreground/10 animate-fade-in animate-delay-750"
     >
-      <h2 className="font-mono text-accent-secondary mb-8 text-sm md:text-base">
+      <h2 className="font-heading text-accent-primary mb-8 text-xs uppercase tracking-wide">
         // past projects
       </h2>
 
-      <ul className="space-y-2.5">
+      <ul className="space-y-6">
         {projects.map((project, index) => (
-          <li key={index} className="text-muted leading-relaxed">
+          <li key={index} className="text-foreground leading-relaxed">
             {project.link ? (
               <a
                 href={project.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-accent-secondary font-semibold underline hover:text-accent-primary transition-colors"
+                className="text-foreground font-semibold hover:text-accent-primary"
               >
                 {project.title} →
               </a>
             ) : (
-              <span>{project.title}</span>
+              <span className="font-semibold">{project.title}</span>
             )}
             {project.description && ` — ${project.description}`}
           </li>

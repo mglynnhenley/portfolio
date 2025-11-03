@@ -11,31 +11,16 @@ interface Flower {
   color: string;
 }
 
-// Bright, vibrant color palette
-const FLOWER_COLORS = [
-  '340 85% 60%',  // Bright pink
-  '280 75% 65%',  // Vibrant purple
-  '200 90% 55%',  // Electric blue
-  '160 80% 50%',  // Emerald green
-  '45 95% 55%',   // Bright yellow
-  '15 90% 60%',   // Coral
-  '310 80% 60%',  // Magenta
-  '180 85% 50%',  // Cyan
-  '120 75% 45%',  // Lime green
-  '260 70% 60%',  // Indigo
-  '30 90% 60%',   // Orange
-  '90 80% 50%',   // Chartreuse
-];
+// Navy only - restrained Swiss palette
+const FLOWER_COLOR = '#1B263B'; // Navy
 
 const DotBackground = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [flowers, setFlowers] = useState<Flower[]>([]);
-  const [lastColorIndex, setLastColorIndex] = useState(-1);
   const [contentHeight, setContentHeight] = useState(0);
-  const [showHint, setShowHint] = useState(true);
 
   // Create a grid of dots
-  const spacing = 60; // pixels between dots (ma - breathing room)
+  const spacing = 100; // pixels between dots - sparse Swiss grid
 
   useEffect(() => {
     // Measure actual content height
@@ -47,36 +32,6 @@ const DotBackground = () => {
     return () => window.removeEventListener('resize', updateHeight);
   }, []);
 
-  // Add initial flowers on mount
-  useEffect(() => {
-    if (typeof window === 'undefined' || contentHeight === 0) return;
-
-    const initialFlowers: Flower[] = [];
-    const numInitialFlowers = 4;
-
-    for (let i = 0; i < numInitialFlowers; i++) {
-      const x = Math.random() * window.innerWidth;
-      const y = Math.random() * contentHeight;
-      const colorIndex = Math.floor(Math.random() * FLOWER_COLORS.length);
-
-      initialFlowers.push({
-        x1: x,
-        y1: y,
-        x2: x + (Math.random() * 100 - 50),
-        y2: y + (Math.random() * 100 - 50),
-        id: `initial-flower-${i}`,
-        color: FLOWER_COLORS[colorIndex],
-      });
-    }
-
-    setFlowers(initialFlowers);
-  }, [contentHeight]);
-
-  // Hide hint after first click or after 8 seconds
-  useEffect(() => {
-    const timer = setTimeout(() => setShowHint(false), 8000);
-    return () => clearTimeout(timer);
-  }, []);
 
   const dotsX = typeof window !== 'undefined' ? Math.ceil(window.innerWidth / spacing) : 0;
   const dotsY = Math.ceil(contentHeight / spacing);
@@ -103,9 +58,6 @@ const DotBackground = () => {
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      // Hide hint on first click
-      if (showHint) setShowHint(false);
-
       // Don't draw flowers if clicking on interactive elements
       const target = e.target as HTMLElement;
       if (
@@ -143,20 +95,13 @@ const DotBackground = () => {
       const nearestTwo = distances.slice(0, 2);
 
       if (nearestTwo.length === 2) {
-        // Get a different color from the last one
-        let colorIndex = Math.floor(Math.random() * FLOWER_COLORS.length);
-        while (colorIndex === lastColorIndex && FLOWER_COLORS.length > 1) {
-          colorIndex = Math.floor(Math.random() * FLOWER_COLORS.length);
-        }
-        setLastColorIndex(colorIndex);
-
         const newFlower: Flower = {
           x1: nearestTwo[0].dot.x,
           y1: nearestTwo[0].dot.y,
           x2: nearestTwo[1].dot.x,
           y2: nearestTwo[1].dot.y,
           id: `flower-${Date.now()}-${Math.random()}`,
-          color: FLOWER_COLORS[colorIndex],
+          color: FLOWER_COLOR,
         };
 
         // No limit on flowers - let them accumulate
@@ -166,7 +111,7 @@ const DotBackground = () => {
 
     window.addEventListener('click', handleClick);
     return () => window.removeEventListener('click', handleClick);
-  }, [allDots, lastColorIndex, showHint]);
+  }, [allDots]);
 
   const getFlowerPaths = (): string[] => {
     return [
@@ -189,11 +134,11 @@ const DotBackground = () => {
               key={index}
               d={pathData}
               fill="none"
-              stroke={`hsl(${flower.color})`}
-              strokeWidth="6"
+              stroke={flower.color}
+              strokeWidth="4"
               strokeLinecap="round"
               strokeLinejoin="round"
-              opacity={0.45}
+              opacity={0.3}
               style={{
                 strokeDasharray: index === 0 ? '2500' : '500',
                 strokeDashoffset: index === 0 ? '2500' : '500',
@@ -211,26 +156,17 @@ const DotBackground = () => {
     const dy = Math.abs(mousePosition.y - dotY);
 
     // Quick rejection using Manhattan distance (cheaper than Euclidean)
-    if (dx + dy > 300) return 0.1; // ~200px radius in Euclidean space
+    if (dx + dy > 240) return 0.15; // ~120px radius in Euclidean space
 
     const distance = Math.sqrt(dx * dx + dy * dy);
-    if (distance < 200) {
-      return 0.3 - (distance / 200) * 0.2;
+    if (distance < 120) {
+      return 0.15 + (1 - distance / 120) * 0.10; // 0.15 to 0.25
     }
-    return 0.1;
+    return 0.15;
   };
 
   return (
     <>
-      {/* User hint */}
-      {showHint && (
-        <div className="fixed top-8 right-8 z-50 pointer-events-none animate-fade-in">
-          <div className="bg-foreground text-background px-4 py-2 rounded-full font-mono text-xs shadow-lg animate-pulse">
-            click anywhere to grow flowers ✿
-          </div>
-        </div>
-      )}
-
       {/* Dot grid */}
       <div
         className="absolute inset-0 pointer-events-none z-0"
@@ -247,7 +183,7 @@ const DotBackground = () => {
               style={{
                 left: `${dotX}px`,
                 top: `${dotY}px`,
-                backgroundColor: '#CCCCCC', // Light gray
+                backgroundColor: '#1B263B', // Navy
                 opacity: getOpacity(dotX, dotY),
               }}
             />
