@@ -161,33 +161,32 @@ const DotBackground = () => {
   };
 
   const getOpacity = (dotX: number, dotY: number) => {
-    let baseOpacity = 0.35;
+    const baseOpacity = 0.35;
 
-    // Link hover ripple effect
+    // Link hover ripple effect (takes priority)
     if (linkHoverPosition) {
-      const linkDx = Math.abs(linkHoverPosition.x - dotX);
-      const linkDy = Math.abs(linkHoverPosition.y - dotY);
+      const linkDx = linkHoverPosition.x - dotX;
+      const linkDy = linkHoverPosition.y - dotY;
       const linkDistance = Math.sqrt(linkDx * linkDx + linkDy * linkDy);
 
-      // Ripple effect within 200px radius
-      if (linkDistance < 200) {
-        const rippleIntensity = 1 - (linkDistance / 200);
-        baseOpacity = 0.35 + rippleIntensity * 0.45; // 0.35 to 0.80
-        return baseOpacity;
+      // Ripple effect within 250px radius
+      if (linkDistance < 250) {
+        const rippleIntensity = 1 - (linkDistance / 250);
+        return baseOpacity + rippleIntensity * 0.55; // 0.35 to 0.90
       }
     }
 
     // Normal mouse hover effect
-    const dx = Math.abs(mousePosition.x - dotX);
-    const dy = Math.abs(mousePosition.y - dotY);
-
-    // Quick rejection using Manhattan distance (cheaper than Euclidean)
-    if (dx + dy > 300) return baseOpacity; // ~150px radius in Euclidean space
-
+    const dx = mousePosition.x - dotX;
+    const dy = mousePosition.y - dotY;
     const distance = Math.sqrt(dx * dx + dy * dy);
-    if (distance < 150) {
-      return baseOpacity + (1 - distance / 150) * 0.40; // 0.35 to 0.75
+
+    // Hover effect within 180px radius
+    if (distance < 180) {
+      const hoverIntensity = 1 - (distance / 180);
+      return baseOpacity + hoverIntensity * 0.50; // 0.35 to 0.85
     }
+
     return baseOpacity;
   };
 
