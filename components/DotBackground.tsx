@@ -156,13 +156,13 @@ const DotBackground = () => {
     const dy = Math.abs(mousePosition.y - dotY);
 
     // Quick rejection using Manhattan distance (cheaper than Euclidean)
-    if (dx + dy > 240) return 0.15; // ~120px radius in Euclidean space
+    if (dx + dy > 240) return 0.35; // ~120px radius in Euclidean space
 
     const distance = Math.sqrt(dx * dx + dy * dy);
     if (distance < 120) {
-      return 0.15 + (1 - distance / 120) * 0.10; // 0.15 to 0.25
+      return 0.35 + (1 - distance / 120) * 0.25; // 0.35 to 0.60
     }
-    return 0.15;
+    return 0.35;
   };
 
   return (
