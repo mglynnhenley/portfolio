@@ -176,12 +176,7 @@ const DotBackground = () => {
         // Save to Supabase - will sync to all users via realtime subscription
         supabase
           .from('flowers')
-          .insert([newFlower])
-          .then(({ error }) => {
-            if (error) {
-              console.error('Error saving flower:', error);
-            }
-          });
+          .insert([newFlower]);
       }
     };
 
