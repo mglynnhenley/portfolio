@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #F5F1E8;
-  --color-foreground: #2D2D2D;
-  --color-accent-primary: #D97757;
-  --color-accent-secondary: #9B6B4B;
-  --color-muted: #6B5D52;
-  --color-grid-line: #E8DFD0;
-  --color-grid-line-hover: #C4B8A0;
+  --color-background: #FFFFFF;
+  --color-foreground: #1a1a1a;
+  --color-accent-primary: #FF1493;
+  --color-accent-secondary: #00CED1;
+  --color-muted: #4a4a4a;
+  --color-grid-line: #E5E5E5;
+  --color-grid-line-hover: #CCCCCC;
 
   --font-heading: var(--font-courier-prime);
   --font-body: var(--font-jetbrains-mono);

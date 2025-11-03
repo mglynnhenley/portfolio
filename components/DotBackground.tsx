@@ -11,20 +11,20 @@ interface Flower {
   color: string;
 }
 
-// Diverse muted palette - warm and cool tones
+// Bright, vibrant color palette
 const FLOWER_COLORS = [
-  '340 45% 65%',  // Dusty rose
-  '25 55% 60%',   // Terracotta
-  '145 25% 55%',  // Sage green
-  '200 30% 50%',  // Slate blue
-  '280 35% 60%',  // Soft purple
-  '45 40% 50%',   // Olive green
-  '15 50% 55%',   // Burnt sienna
-  '190 40% 45%',  // Teal
-  '330 30% 55%',  // Mauve
-  '170 35% 48%',  // Forest green
-  '210 25% 52%',  // Dusty blue
-  '30 25% 45%',   // Warm brown
+  '340 85% 60%',  // Bright pink
+  '280 75% 65%',  // Vibrant purple
+  '200 90% 55%',  // Electric blue
+  '160 80% 50%',  // Emerald green
+  '45 95% 55%',   // Bright yellow
+  '15 90% 60%',   // Coral
+  '310 80% 60%',  // Magenta
+  '180 85% 50%',  // Cyan
+  '120 75% 45%',  // Lime green
+  '260 70% 60%',  // Indigo
+  '30 90% 60%',   // Orange
+  '90 80% 50%',   // Chartreuse
 ];
 
 const DotBackground = () => {
@@ -124,11 +124,8 @@ const DotBackground = () => {
           color: FLOWER_COLORS[colorIndex],
         };
 
-        // Limit to 30 flowers max
-        setFlowers((prev) => {
-          const updated = [...prev, newFlower];
-          return updated.slice(-30);
-        });
+        // No limit on flowers - let them accumulate
+        setFlowers((prev) => [...prev, newFlower]);
       }
     };
 
@@ -192,7 +189,7 @@ const DotBackground = () => {
     <>
       {/* Dot grid */}
       <div
-        className="fixed inset-0 pointer-events-none z-0"
+        className="absolute inset-0 pointer-events-none z-0"
         style={{ height: `${contentHeight}px` }}
       >
         {allDots.map((dot, index) => {
@@ -206,7 +203,7 @@ const DotBackground = () => {
               style={{
                 left: `${dotX}px`,
                 top: `${dotY}px`,
-                backgroundColor: '#E8DFD0', // Warm tan
+                backgroundColor: '#CCCCCC', // Light gray
                 opacity: getOpacity(dotX, dotY),
               }}
             />
@@ -216,7 +213,7 @@ const DotBackground = () => {
 
       {/* SVG overlay for flowers */}
       <svg
-        className="fixed inset-0 pointer-events-none z-0 w-full"
+        className="absolute inset-0 pointer-events-none z-0 w-full"
         style={{ height: `${contentHeight}px` }}
       >
         {flowers.map((flower) => renderFlower(flower))}

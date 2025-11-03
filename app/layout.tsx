@@ -40,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${jetbrainsMono.variable} ${anonymousPro.variable} ${courierPrime.variable}`}>
-      <body>
+      <body className="relative">
         <DotBackground />
         <div className="relative z-10">{children}</div>
       </body>
