@@ -11,13 +11,20 @@ interface Flower {
   color: string;
 }
 
-// Earth tone palette (terracotta, burnt sienna, clay, rust, warm gray-brown)
-const EARTH_TONE_COLORS = [
-  '15 60% 58%',  // Terracotta
-  '20 50% 50%',  // Burnt sienna
-  '30 45% 55%',  // Clay
-  '10 55% 52%',  // Rust
-  '25 20% 45%',  // Warm gray-brown
+// Diverse muted palette - warm and cool tones
+const FLOWER_COLORS = [
+  '340 45% 65%',  // Dusty rose
+  '25 55% 60%',   // Terracotta
+  '145 25% 55%',  // Sage green
+  '200 30% 50%',  // Slate blue
+  '280 35% 60%',  // Soft purple
+  '45 40% 50%',   // Olive green
+  '15 50% 55%',   // Burnt sienna
+  '190 40% 45%',  // Teal
+  '330 30% 55%',  // Mauve
+  '170 35% 48%',  // Forest green
+  '210 25% 52%',  // Dusty blue
+  '30 25% 45%',   // Warm brown
 ];
 
 const DotBackground = () => {
@@ -102,9 +109,9 @@ const DotBackground = () => {
 
       if (nearestTwo.length === 2) {
         // Get a different color from the last one
-        let colorIndex = Math.floor(Math.random() * EARTH_TONE_COLORS.length);
-        while (colorIndex === lastColorIndex && EARTH_TONE_COLORS.length > 1) {
-          colorIndex = Math.floor(Math.random() * EARTH_TONE_COLORS.length);
+        let colorIndex = Math.floor(Math.random() * FLOWER_COLORS.length);
+        while (colorIndex === lastColorIndex && FLOWER_COLORS.length > 1) {
+          colorIndex = Math.floor(Math.random() * FLOWER_COLORS.length);
         }
         setLastColorIndex(colorIndex);
 
@@ -114,7 +121,7 @@ const DotBackground = () => {
           x2: nearestTwo[1].dot.x,
           y2: nearestTwo[1].dot.y,
           id: `flower-${Date.now()}-${Math.random()}`,
-          color: EARTH_TONE_COLORS[colorIndex],
+          color: FLOWER_COLORS[colorIndex],
         };
 
         // Limit to 30 flowers max
