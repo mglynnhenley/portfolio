@@ -35,63 +35,77 @@ const DotBackground = () => {
     return () => window.removeEventListener('resize', updateHeight);
   }, []);
 
-  // Load flowers from Supabase on mount
+  // Load flowers from Supabase on mount (optional - graceful degradation)
   useEffect(() => {
-    const loadFlowers = async () => {
-      const { data, error } = await supabase
-        .from('flowers')
-        .select('*')
-        .order('created_at', { ascending: true });
+    // Only try Supabase if credentials are configured
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    if (!supabaseUrl) {
+      return; // Skip Supabase if not configured
+    }
 
-      if (data && !error) {
-        const loadedFlowers: Flower[] = data.map((f: DBFlower) => ({
-          x1: Number(f.x1),
-          y1: Number(f.y1),
-          x2: Number(f.x2),
-          y2: Number(f.y2),
-          id: f.id,
-          color: f.color,
-        }));
-        setFlowers(loadedFlowers);
+    const loadFlowers = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('flowers')
+          .select('*')
+          .order('created_at', { ascending: true });
+
+        if (data && !error) {
+          const loadedFlowers: Flower[] = data.map((f: DBFlower) => ({
+            x1: Number(f.x1),
+            y1: Number(f.y1),
+            x2: Number(f.x2),
+            y2: Number(f.y2),
+            id: f.id,
+            color: f.color,
+          }));
+          setFlowers(loadedFlowers);
+        }
+      } catch (err) {
+        // Silently fail - work in local-only mode
       }
     };
 
     loadFlowers();
 
     // Subscribe to real-time updates
-    const channel = supabase
-      .channel('flowers-changes')
-      .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'flowers' },
-        (payload) => {
-          const newFlower = payload.new as DBFlower;
-          setFlowers((prev) => [
-            ...prev,
-            {
-              x1: Number(newFlower.x1),
-              y1: Number(newFlower.y1),
-              x2: Number(newFlower.x2),
-              y2: Number(newFlower.y2),
-              id: newFlower.id,
-              color: newFlower.color,
-            },
-          ]);
-        }
-      )
-      .on(
-        'postgres_changes',
-        { event: 'DELETE', schema: 'public', table: 'flowers' },
-        (payload) => {
-          // When flowers are cleared, remove all
-          setFlowers([]);
-        }
-      )
-      .subscribe();
+    try {
+      const channel = supabase
+        .channel('flowers-changes')
+        .on(
+          'postgres_changes',
+          { event: 'INSERT', schema: 'public', table: 'flowers' },
+          (payload) => {
+            const newFlower = payload.new as DBFlower;
+            setFlowers((prev) => [
+              ...prev,
+              {
+                x1: Number(newFlower.x1),
+                y1: Number(newFlower.y1),
+                x2: Number(newFlower.x2),
+                y2: Number(newFlower.y2),
+                id: newFlower.id,
+                color: newFlower.color,
+              },
+            ]);
+          }
+        )
+        .on(
+          'postgres_changes',
+          { event: 'DELETE', schema: 'public', table: 'flowers' },
+          () => {
+            // When flowers are cleared, remove all
+            setFlowers([]);
+          }
+        )
+        .subscribe();
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    } catch (err) {
+      // Silently fail - work in local-only mode
+    }
   }, []);
 
 
@@ -165,18 +179,33 @@ const DotBackground = () => {
       const nearestTwo = distances.slice(0, 2);
 
       if (nearestTwo.length === 2) {
-        const newFlower = {
+        const newFlower: Flower = {
           x1: nearestTwo[0].dot.x,
           y1: nearestTwo[0].dot.y,
           x2: nearestTwo[1].dot.x,
           y2: nearestTwo[1].dot.y,
+          id: `flower-${Date.now()}-${Math.random()}`,
           color: FLOWER_COLOR,
         };
 
-        // Save to Supabase - will sync to all users via realtime subscription
-        supabase
-          .from('flowers')
-          .insert([newFlower]);
+        // Add flower locally first (instant feedback)
+        setFlowers((prev) => [...prev, newFlower]);
+
+        // Try to save to Supabase if configured (will sync to other users)
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        if (supabaseUrl) {
+          try {
+            supabase.from('flowers').insert([{
+              x1: newFlower.x1,
+              y1: newFlower.y1,
+              x2: newFlower.x2,
+              y2: newFlower.y2,
+              color: newFlower.color,
+            }]);
+          } catch (err) {
+            // Silently fail - flower is already shown locally
+          }
+        }
       }
     };
 
