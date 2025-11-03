@@ -6,7 +6,7 @@ export default function About({ bio }: AboutProps) {
   return (
     <section
       id="about"
-      className="max-w-4xl px-6 py-6 animate-fade-in animate-delay-150"
+      className="max-w-4xl px-6 py-12 animate-fade-in animate-delay-150"
     >
       <h2 className="font-mono text-accent-secondary mb-3 text-xs">
         // a bit about me

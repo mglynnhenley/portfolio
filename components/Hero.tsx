@@ -5,7 +5,7 @@ interface HeroProps {
 
 export default function Hero({ name, title }: HeroProps) {
   return (
-    <section className="max-w-4xl px-6 pt-12 pb-6 animate-fade-in">
+    <section className="max-w-4xl px-6 pt-20 pb-12 animate-fade-in">
       <p className="text-muted text-xs mb-4 font-mono">
         currently living in{' '}
         <span className="text-accent-primary font-bold">paris</span>

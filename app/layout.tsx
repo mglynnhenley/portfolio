@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { JetBrains_Mono, Anonymous_Pro, Courier_Prime } from "next/font/google";
 import "./globals.css";
+import DotBackground from "@/components/DotBackground";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -39,7 +40,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${jetbrainsMono.variable} ${anonymousPro.variable} ${courierPrime.variable}`}>
-      <body>{children}</body>
+      <body>
+        <DotBackground />
+        <div className="relative z-10">{children}</div>
+      </body>
     </html>
   );
 }

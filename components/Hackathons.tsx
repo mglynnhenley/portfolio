@@ -8,7 +8,7 @@ export default function Hackathons({ hackathons }: HackathonsProps) {
   return (
     <section
       id="hackathons"
-      className="max-w-4xl px-6 py-8 border-t border-grid-line animate-fade-in animate-delay-450"
+      className="max-w-4xl px-6 py-12 border-t border-grid-line animate-fade-in animate-delay-450"
     >
       <h2 className="font-mono text-accent-secondary mb-4 text-xs">
         // hackathons

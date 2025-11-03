@@ -8,7 +8,7 @@ export default function Projects({ projects }: ProjectsProps) {
   return (
     <section
       id="projects"
-      className="max-w-4xl px-6 py-8 border-t border-grid-line animate-fade-in animate-delay-300"
+      className="max-w-4xl px-6 py-12 border-t border-grid-line animate-fade-in animate-delay-300"
     >
       <h2 className="font-mono text-accent-secondary mb-4 text-xs">
         // current projects
