@@ -18,9 +18,10 @@ const DotBackground = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [flowers, setFlowers] = useState<Flower[]>([]);
   const [contentHeight, setContentHeight] = useState(0);
+  const [linkHoverPosition, setLinkHoverPosition] = useState<{ x: number; y: number } | null>(null);
 
   // Create a grid of dots
-  const spacing = 100; // pixels between dots - sparse Swiss grid
+  const spacing = 60; // pixels between dots - visible Swiss grid
 
   useEffect(() => {
     // Measure actual content height
@@ -50,6 +51,14 @@ const DotBackground = () => {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY + window.scrollY });
+
+      // Check if hovering over a link
+      const target = e.target as HTMLElement;
+      if (target.tagName === 'A' || target.closest('a')) {
+        setLinkHoverPosition({ x: e.clientX, y: e.clientY + window.scrollY });
+      } else {
+        setLinkHoverPosition(null);
+      }
     };
 
     window.addEventListener('mousemove', handleMouseMove);
@@ -152,17 +161,34 @@ const DotBackground = () => {
   };
 
   const getOpacity = (dotX: number, dotY: number) => {
+    let baseOpacity = 0.35;
+
+    // Link hover ripple effect
+    if (linkHoverPosition) {
+      const linkDx = Math.abs(linkHoverPosition.x - dotX);
+      const linkDy = Math.abs(linkHoverPosition.y - dotY);
+      const linkDistance = Math.sqrt(linkDx * linkDx + linkDy * linkDy);
+
+      // Ripple effect within 200px radius
+      if (linkDistance < 200) {
+        const rippleIntensity = 1 - (linkDistance / 200);
+        baseOpacity = 0.35 + rippleIntensity * 0.45; // 0.35 to 0.80
+        return baseOpacity;
+      }
+    }
+
+    // Normal mouse hover effect
     const dx = Math.abs(mousePosition.x - dotX);
     const dy = Math.abs(mousePosition.y - dotY);
 
     // Quick rejection using Manhattan distance (cheaper than Euclidean)
-    if (dx + dy > 240) return 0.35; // ~120px radius in Euclidean space
+    if (dx + dy > 300) return baseOpacity; // ~150px radius in Euclidean space
 
     const distance = Math.sqrt(dx * dx + dy * dy);
-    if (distance < 120) {
-      return 0.35 + (1 - distance / 120) * 0.25; // 0.35 to 0.60
+    if (distance < 150) {
+      return baseOpacity + (1 - distance / 150) * 0.40; // 0.35 to 0.75
     }
-    return 0.35;
+    return baseOpacity;
   };
 
   return (
@@ -179,7 +205,7 @@ const DotBackground = () => {
           return (
             <div
               key={index}
-              className="absolute w-[2px] h-[2px] rounded-full transition-opacity duration-100"
+              className="absolute w-[2px] h-[2px] rounded-full transition-opacity duration-200"
               style={{
                 left: `${dotX}px`,
                 top: `${dotY}px`,
