@@ -21,7 +21,7 @@ const DotBackground = () => {
   const [linkHoverPosition, setLinkHoverPosition] = useState<{ x: number; y: number } | null>(null);
 
   // Create a grid of dots
-  const spacing = 60; // pixels between dots - visible Swiss grid
+  const spacing = 40; // pixels between dots - dense Swiss grid
 
   useEffect(() => {
     // Measure actual content height
