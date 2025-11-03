@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
+import { supabase } from '@/lib/supabase';
+import type { Flower as DBFlower } from '@/lib/supabase';
 
 interface Flower {
   x1: number;
@@ -31,6 +33,65 @@ const DotBackground = () => {
     updateHeight();
     window.addEventListener('resize', updateHeight);
     return () => window.removeEventListener('resize', updateHeight);
+  }, []);
+
+  // Load flowers from Supabase on mount
+  useEffect(() => {
+    const loadFlowers = async () => {
+      const { data, error } = await supabase
+        .from('flowers')
+        .select('*')
+        .order('created_at', { ascending: true });
+
+      if (data && !error) {
+        const loadedFlowers: Flower[] = data.map((f: DBFlower) => ({
+          x1: Number(f.x1),
+          y1: Number(f.y1),
+          x2: Number(f.x2),
+          y2: Number(f.y2),
+          id: f.id,
+          color: f.color,
+        }));
+        setFlowers(loadedFlowers);
+      }
+    };
+
+    loadFlowers();
+
+    // Subscribe to real-time updates
+    const channel = supabase
+      .channel('flowers-changes')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'flowers' },
+        (payload) => {
+          const newFlower = payload.new as DBFlower;
+          setFlowers((prev) => [
+            ...prev,
+            {
+              x1: Number(newFlower.x1),
+              y1: Number(newFlower.y1),
+              x2: Number(newFlower.x2),
+              y2: Number(newFlower.y2),
+              id: newFlower.id,
+              color: newFlower.color,
+            },
+          ]);
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: 'DELETE', schema: 'public', table: 'flowers' },
+        (payload) => {
+          // When flowers are cleared, remove all
+          setFlowers([]);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
 
@@ -104,17 +165,23 @@ const DotBackground = () => {
       const nearestTwo = distances.slice(0, 2);
 
       if (nearestTwo.length === 2) {
-        const newFlower: Flower = {
+        const newFlower = {
           x1: nearestTwo[0].dot.x,
           y1: nearestTwo[0].dot.y,
           x2: nearestTwo[1].dot.x,
           y2: nearestTwo[1].dot.y,
-          id: `flower-${Date.now()}-${Math.random()}`,
           color: FLOWER_COLOR,
         };
 
-        // No limit on flowers - let them accumulate
-        setFlowers((prev) => [...prev, newFlower]);
+        // Save to Supabase - will sync to all users via realtime subscription
+        supabase
+          .from('flowers')
+          .insert([newFlower])
+          .then(({ error }) => {
+            if (error) {
+              console.error('Error saving flower:', error);
+            }
+          });
       }
     };
 
