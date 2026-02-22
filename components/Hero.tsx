@@ -38,16 +38,11 @@ export default function Hero({ name, title }: HeroProps) {
 
       <p className="text-foreground text-xs mb-6 font-mono">
         currently living in{' '}
-        <span className="text-accent-primary font-bold">paris</span>
-        {' '}at{' '}
-        <a
-          href="https://joinpluto.io"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-foreground hover:text-accent-primary"
-        >
-          pluto hacker house
-        </a>
+        <span className="text-accent-primary font-bold">london</span>
+        {' '}at the{' '}
+        <span className="text-foreground">
+          london AI hub
+        </span>
       </p>
 
       <h1 className="text-5xl font-bold mb-4 text-accent-primary">{name}</h1>

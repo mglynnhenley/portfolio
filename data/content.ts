@@ -5,29 +5,34 @@ export const personalInfo: PersonalInfo = {
   title: "investor @ merantix",
   email: "matilda @ merantix dot com",
   bio: [
-    "I'm a pre-seed VC at Merantix Capital where we invest at the AI Application layer (check it out here https://www.merantix-capital.com/). Previously I founded a company using AI to solve the housing crisis and was a software engineer. I studied CS at Oxford.",
+    "I'm a pre-seed VC at Merantix Capital where we invest at the AI Application layer (check it out here https://www.merantix-capital.com/). Previously I founded a company using AI to solve the housing crisis and was a software engineer. I studied CS at Oxford. Currently based in London at the London AI Hub.",
     "If you are building something cool my (work) email is matilda @ merantix dot com."
   ]
 };
 
 export const currentProjects: Project[] = [
   {
-    title: "OnFabric Generative Interfaces",
-    description: "Building agentic generative interface on top of OnFabric MCP",
-    link: "https://github.com/mglynnhenley/onfabric-demo"
+    title: "Linear Probes for Inference Time Monitoring",
+    description: "Research on linear probes for monitoring model behaviour at inference time",
+    link: "https://docs.google.com/document/d/1YGvJYVKbUn8_m6Is-7j9kk3lUIleqGICzeIgzG1rJM0/edit?usp=sharing"
   },
   {
-    title: "Pluto Hacker House",
-    description: "Living in Paris and running operations @ pluto",
-    link: "https://joinpluto.io"
-  },
-  {
-    title: "Blue Dot dot AGI Strategy",
-    description: "Exploring AI Control Defenses"
+    title: "Technical AI Safety Course",
+    description: "Blue Dot AI safety technical course",
+    link: "https://www.bluedot.org/"
   }
 ];
 
 export const pastProjects: Project[] = [
+  {
+    title: "OnFabric Generative Interfaces",
+    description: "Built agentic generative interface on top of OnFabric MCP",
+    link: "https://github.com/mglynnhenley/onfabric-demo"
+  },
+  {
+    title: "Blue Dot AGI Strategy",
+    description: "Explored AI Control Defenses"
+  },
   {
     title: "Data Visualization (JavaScript, D3.js)",
     description: "Created a front-end project visualising female headliners at UK music festivals",
@@ -98,6 +103,12 @@ export const experiences: Experience[] = [
     description: "Sourced and closed €6M+ across pre-seed AI startups; built internal AI evaluation tools"
   },
   {
+    title: "Operations",
+    company: "Pluto",
+    period: "2025",
+    description: "Lived in Paris and ran operations at Pluto hacker house"
+  },
+  {
     title: "Founder",
     company: "Parlia AI",
     period: "March 2024 - 2025",
@@ -118,6 +129,10 @@ export const experiences: Experience[] = [
 ];
 
 export const pastEvents: Event[] = [
+  {
+    title: "AI Safety as a Startup",
+    link: "https://luma.com/9ojkftsu"
+  },
   {
     title: "AI Open Source",
     link: "https://lu.ma"
