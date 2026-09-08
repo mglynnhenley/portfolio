@@ -12,6 +12,13 @@ export interface Experience {
   description: string;
 }
 
+export interface Education {
+  title: string;
+  institution: string;
+  period: string;
+  description: string;
+}
+
 export interface Event {
   title: string;
   link?: string;

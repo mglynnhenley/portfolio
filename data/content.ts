@@ -1,42 +1,69 @@
-import { PersonalInfo, Project, Experience, Event, Community } from './types';
+import { PersonalInfo, Project, Experience, Education, Event, Community } from './types';
 
 export const personalInfo: PersonalInfo = {
   name: "matilda glynn-henley",
-  title: "investor @ merantix",
-  email: "matilda @ merantix dot com",
+  title: "building things · london",
+  email: "matildaglynnh @ gmail dot com",
   bio: [
-    "I'm a pre-seed VC at Merantix Capital where we invest at the AI Application layer (check it out here https://www.merantix-capital.com/). Previously I founded a company using AI to solve the housing crisis and was a software engineer. I studied CS at Oxford. Currently based in London at the London AI Hub.",
-    "If you are building something cool my (work) email is matilda @ merantix dot com."
+    "I like building things. At the moment that's Sonata Labs (https://github.com/mglynnhenley/sonata-labs) — an open-source benchmark that clones a company into a fake Gmail, Slack and Calendar, runs an agent through a simulated workday inside it, and scores how much of the job it finished. The work is funded by a Coefficient Giving (previously Open Philanthropy) grant.",
+    "Before this I founded Parlia AI (a planning-policy tool), ran Pluto House (a hacker house in Paris), invested in pre-seed AI companies at Merantix Capital, and worked as a software engineer. I studied computer science at Oxford. I live in London.",
+    "If you're building something, say hello: matildaglynnh @ gmail dot com. I'm also on GitHub (https://github.com/mglynnhenley) and LinkedIn (https://linkedin.com/in/matilda-glynn-henley)."
   ]
 };
 
 export const currentProjects: Project[] = [
   {
-    title: "Linear Probes for Inference Time Monitoring",
-    description: "Research on linear probes for monitoring model behaviour at inference time",
-    link: "https://docs.google.com/document/d/1YGvJYVKbUn8_m6Is-7j9kk3lUIleqGICzeIgzG1rJM0/edit?usp=sharing"
+    title: "Sonata Labs",
+    description: "Open-source agent benchmark: clone a company into a fake Gmail, Slack and Calendar, run your agent through a simulated workday, score how much of the job it finished",
+    link: "https://github.com/mglynnhenley/sonata-labs"
   },
   {
-    title: "Technical AI Safety Course",
-    description: "Blue Dot AI safety technical course",
-    link: "https://www.bluedot.org/"
+    title: "Pre-Deployment Simulation Environments",
+    description: "Concept paper on testing agents in simulated environments before deployment"
+  },
+  {
+    title: "Linear Probes for Inference-Time Monitoring",
+    description: "A trained factuality probe on model activations, and a concept paper written with Sam Dower",
+    link: "https://docs.google.com/document/d/1YGvJYVKbUn8_m6Is-7j9kk3lUIleqGICzeIgzG1rJM0/edit?usp=sharing"
+  }
+];
+
+export const education: Education[] = [
+  {
+    title: "BA Computer Science",
+    institution: "University of Oxford, Balliol College",
+    period: "2019 – 2023",
+    description: "Machine learning, AI, data visualisation, algorithms; final-year project on smart contracts for food cooperatives (Solidity)"
+  },
+  {
+    title: "ARENA 8.0",
+    institution: "Alignment Research Engineer Accelerator",
+    period: "June – July 2026",
+    description: "Five-week course in mechanistic interpretability, alignment evaluations and reinforcement learning"
+  },
+  {
+    title: "AGI Strategy Course",
+    institution: "Bluedot Impact",
+    period: "Nov – Dec 2025",
+    description: "AI safety policy, governance and technical mitigation"
   }
 ];
 
 export const pastProjects: Project[] = [
   {
+    title: "Linear Probes Training Pipeline (Python, vLLM)",
+    description: "Training pipeline for a factuality probe on model activations",
+    link: "https://github.com/mglynnhenley/probe-demo"
+  },
+  {
     title: "OnFabric Generative Interfaces",
-    description: "Built agentic generative interface on top of OnFabric MCP",
+    description: "Agentic generative interface on top of OnFabric MCP",
     link: "https://github.com/mglynnhenley/onfabric-demo"
   },
   {
-    title: "Blue Dot AGI Strategy",
-    description: "Explored AI Control Defenses"
-  },
-  {
-    title: "Data Visualization (JavaScript, D3.js)",
-    description: "Created a front-end project visualising female headliners at UK music festivals",
-    link: "https://femaleheadlinersatukmusicfestival.netlify.app/"
+    title: "LinkedIn Screener Bot (Python)",
+    description: "LinkedIn profile screening bot for Slack",
+    link: "https://github.com/mglynnhenley/linkedin-screener-bot"
   },
   {
     title: "Investment Memo Generator (Python, Langchain)",
@@ -44,30 +71,40 @@ export const pastProjects: Project[] = [
     link: "https://github.com/mglynnhenley/deal_evaluator"
   },
   {
+    title: "Data Visualization (JavaScript, D3.js)",
+    description: "Visualising female headliners at UK music festivals",
+    link: "https://femaleheadlinersatukmusicfestival.netlify.app/"
+  },
+  {
+    title: "Smart Contracts for Food Cooperatives (Solidity)",
+    description: "Oxford final-year project: food cooperative governance on the blockchain",
+    link: "https://github.com/mglynnhenley/foodCooperativeOnBlockchain"
+  },
+  {
     title: "Legal Front-End User Flow & Portal (React, TypeScript, Next.js, Java)",
-    description: "User-friendly front-end flow and internal portal for legal case management",
+    description: "Customer-facing flow and internal portal for legal case management",
     link: "https://flow-st.fine.so/en/gambling/desktop"
   },
   {
     title: "Turtle Charity Mobile App (React Native, TypeScript, Express, MS SQL Server)",
-    description: "Built a full-stack charity app with backend and database integration"
+    description: "Full-stack charity app with backend and database integration"
   },
   {
     title: "Tinder Scraper for Oxford Hack (Python, TypeScript, React)",
-    description: "Built a bot to match Tinder profiles with Facebook's Ox-love page (Not submitted due to regulations)"
+    description: "A bot to match Tinder profiles with Facebook's Ox-love page (not submitted due to regulations)"
   },
   {
     title: "ML to detect hidden messages in SVGs (Python - scikit-learn)",
-    description: "Developed a Python tool for detecting hidden messages in images"
+    description: "Steganography detection model, built during a summer at GCHQ"
   },
   {
     title: "Python Module for Distributed Music Playback (Python, C++)",
-    description: "Developed a module for synchronous music playback across Raspberry Pi devices",
+    description: "Synchronous music playback across Raspberry Pi devices",
     link: "https://github.com/mglynnhenley/asynchronousSingingMicrobits"
   },
   {
     title: "Legal News Website (Next.js, React, TypeScript)",
-    description: "Built a blog platform with search (prefix search tree for linear time complexity), cached favourites, and email validation",
+    description: "Blog platform with prefix-tree search, cached favourites and email validation",
     link: "https://github.com/mglynnhenley/legalNews"
   },
 ];
@@ -75,56 +112,58 @@ export const pastProjects: Project[] = [
 export const hackathons: Project[] = [
   {
     title: "project lovable",
-    description: "AI-powered project management and collaboration tool built at hackathon",
-    link: "https://github.com"
+    description: "AI project management and collaboration tool"
   },
   {
     title: "ef x eleven labs",
-    description: "Voice AI application developed at Entrepreneur First x Eleven Labs hackathon",
-    link: "https://github.com"
+    description: "Voice AI application, built at the Entrepreneur First x Eleven Labs hackathon"
   },
   {
     title: "AI Find",
-    description: "Intelligent search and discovery tool leveraging AI for enhanced information retrieval",
-    link: "https://github.com"
+    description: "AI search and discovery tool"
   },
   {
     title: "chatbots aren't dead",
-    description: "Experimental conversational AI interface exploring next-generation chat experiences",
-    link: "https://github.com"
+    description: "Experimental conversational interface"
   }
 ];
 
 export const experiences: Experience[] = [
   {
-    title: "Founding Investor",
-    company: "Merantix Capital",
-    period: "April 2025 - Present",
-    description: "Sourced and closed €6M+ across pre-seed AI startups; built internal AI evaluation tools"
-  },
-  {
-    title: "Operations",
-    company: "Pluto",
-    period: "2025",
-    description: "Lived in Paris and ran operations at Pluto hacker house"
+    title: "Building Sonata Labs",
+    company: "Coefficient Giving grant",
+    period: "June 2026 – Present",
+    description: "Six months of funding to work on AI safety full-time; building an open-source agent benchmark"
   },
   {
     title: "Founder",
     company: "Parlia AI",
-    period: "March 2024 - 2025",
-    description: "AI planning policy tool; secured EXIST funding"
+    period: "March 2024 – Jan 2025",
+    description: "Planning-policy tool for housebuilders: vector database of local government policy, RAG retrieval, LLM evaluation framework; funded by the German Federal Ministry for Economic Affairs and Energy"
+  },
+  {
+    title: "VC Investor",
+    company: "Merantix Capital",
+    period: "April 2025 – June 2026",
+    description: "Led two pre-seed investments (Droidrun, Outpost Bio); built the fund's internal AI tooling; ran Pluto House, a one-month Paris hacker house"
+  },
+  {
+    title: "Visiting Analyst",
+    company: "Merantix Capital",
+    period: "April – Nov 2024",
+    description: "Worked on the fund's first external investment from screening to IC; left to found Parlia"
   },
   {
     title: "Software Developer",
     company: "Fine Legal",
     period: "Nov 2023 – April 2024",
-    description: "Built customer-facing features (React/TypeScript, Java)"
+    description: "Consumer-rights platform features (React/TypeScript, Java)"
   },
   {
     title: "Previous Roles",
     company: "Softwire, GCHQ",
-    period: "2022 - 2023",
-    description: "Softwire (Software Dev Intern), GCHQ (Cyber Security Intern)"
+    period: "2020 – 2022",
+    description: "Softwire (greenfield React Native app with a TypeScript/Express backend), GCHQ (ML steganography detection)"
   }
 ];
 
@@ -150,11 +189,15 @@ export const pastEvents: Event[] = [
 export const communities: Community[] = [
   {
     title: "threecourses.xyz",
-    description: "VC backed invite only community of technical women working in startups in London",
+    description: "Community of technical women working in startups in London",
     link: "https://threecourses.xyz"
   },
   {
-    title: "Founder of START Berlin Female Mentorship",
-    description: "connecting 15 founders and VCs to female students"
+    title: "START Berlin Female Mentorship",
+    description: "Mentorship programme connecting founders and VCs to female students"
+  },
+  {
+    title: "Oxford Women in CS Society",
+    description: "Ran the undergraduate side: invite-only dinners and study sessions"
   },
 ];
