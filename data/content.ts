@@ -19,7 +19,8 @@ export const currentProjects: Project[] = [
   },
   {
     title: "Pre-Deployment Simulation Environments",
-    description: "Concept paper on testing agents in simulated environments before deployment"
+    description: "Concept paper for a nonprofit testing agents in simulated environments before deployment",
+    link: "https://docs.google.com/document/d/1rIUe5sWnVDDZebhne4jUJp7ChxYvzJ1VNQbflD4dVIM/edit?tab=t.ljwlxdm9ves1#heading=h.slhhex8dl7ti"
   },
   {
     title: "Linear Probes for Inference-Time Monitoring",
