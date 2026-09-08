@@ -6,8 +6,40 @@ body {
   font-family: "Times New Roman", Times, serif;
   font-size: 16px;
   line-height: 1.4;
-  margin: 8px;
-  max-width: 100%;
+  margin: 16px 8px;
+  animation: disco 0.9s step-end;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  border: 2px solid #000000;
+  padding: 8px 24px 16px;
+  background: #ffffff;
+  animation: disco 0.7s step-end;
+}
+
+fieldset {
+  border: 1px solid #000000;
+  margin: 20px 0;
+  padding: 4px 16px 8px;
+  background: #ffffff;
+}
+
+/* Disco load: everything flickers through party colours, then settles to white */
+@keyframes disco {
+  0% { background-color: #ffff00; }
+  20% { background-color: #00ffff; }
+  40% { background-color: #ff66ff; }
+  60% { background-color: #66ff66; }
+  80% { background-color: #ffcc66; }
+  100% { background-color: #ffffff; }
+}
+
+legend {
+  font-weight: bold;
+  font-size: 1.17em;
+  padding: 0 8px;
 }
 
 a {
@@ -22,9 +54,45 @@ a:active {
   color: #ff0000;
 }
 
+/* Selection-highlight hover: like selecting text in an old browser */
+a:hover,
+a:visited:hover {
+  background: #0000ee;
+  color: #ffffff;
+}
+
 h1, h2, h3, h4 {
   font-family: "Times New Roman", Times, serif;
   font-weight: bold;
+}
+
+/* Staggered section reveal: fieldsets pop in instantly, one by one,
+   like a page rendering over dial-up — each flashes disco as it lands. */
+fieldset {
+  animation:
+    appear 0s step-end backwards,
+    disco 0.65s step-end backwards;
+}
+
+fieldset:nth-of-type(1) { animation-delay: 0.35s, 0.35s; }
+fieldset:nth-of-type(2) { animation-delay: 0.55s, 0.55s; }
+fieldset:nth-of-type(3) { animation-delay: 0.75s, 0.75s; }
+fieldset:nth-of-type(4) { animation-delay: 0.95s, 0.95s; }
+fieldset:nth-of-type(5) { animation-delay: 1.15s, 1.15s; }
+fieldset:nth-of-type(6) { animation-delay: 1.35s, 1.35s; }
+fieldset:nth-of-type(7) { animation-delay: 1.55s, 1.55s; }
+
+@keyframes appear {
+  from { visibility: hidden; }
+  to { visibility: visible; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body,
+  main,
+  fieldset {
+    animation: none;
+  }
 }
 
 hr {

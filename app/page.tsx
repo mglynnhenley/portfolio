@@ -9,6 +9,7 @@ import {
   communities,
 } from '@/data/content';
 import { Project } from '@/data/types';
+import TapColors from '@/components/TapColors';
 
 function ProjectList({ items }: { items: Project[] }) {
   return (
@@ -32,6 +33,7 @@ function ProjectList({ items }: { items: Project[] }) {
 export default function Home() {
   return (
     <main>
+      <TapColors />
       <h1>{personalInfo.name}</h1>
       <p>{personalInfo.title}</p>
 
@@ -49,52 +51,66 @@ export default function Home() {
         </p>
       ))}
 
-      <hr />
+      <fieldset>
+        <legend>Now</legend>
+        <p>Exploring ideas in AI safety — here are a few things I&apos;ve worked on and built:</p>
+        <ProjectList items={currentProjects} />
+        <p><b>I&apos;m actively looking for cofounders.</b></p>
+      </fieldset>
 
-      <h2>Now</h2>
-      <ProjectList items={currentProjects} />
+      <fieldset>
+        <legend>Hackathons</legend>
+        <ProjectList items={hackathons} />
+      </fieldset>
 
-      <h2>Hackathons</h2>
-      <ProjectList items={hackathons} />
+      <fieldset>
+        <legend>Experience</legend>
+        <ul>
+          {experiences.map((e) => (
+            <li key={e.title + e.company}>
+              <b>{e.title}</b>, {e.company} ({e.period}) — {e.description}
+            </li>
+          ))}
+        </ul>
+      </fieldset>
 
-      <h2>Experience</h2>
-      <ul>
-        {experiences.map((e) => (
-          <li key={e.title + e.company}>
-            <b>{e.title}</b>, {e.company} ({e.period}) — {e.description}
-          </li>
-        ))}
-      </ul>
+      <fieldset>
+        <legend>Past Projects</legend>
+        <ProjectList items={pastProjects} />
+      </fieldset>
 
-      <h2>Past Projects</h2>
-      <ProjectList items={pastProjects} />
+      <fieldset>
+        <legend>Communities</legend>
+        <ProjectList items={communities} />
+      </fieldset>
 
-      <h2>Communities</h2>
-      <ProjectList items={communities} />
+      <fieldset>
+        <legend>Events</legend>
+        <ul>
+          {pastEvents.map((ev) => (
+            <li key={ev.title}>
+              {ev.link ? (
+                <a href={ev.link} target="_blank" rel="noopener noreferrer">
+                  {ev.title}
+                </a>
+              ) : (
+                ev.title
+              )}
+            </li>
+          ))}
+        </ul>
+      </fieldset>
 
-      <h2>Events</h2>
-      <ul>
-        {pastEvents.map((ev) => (
-          <li key={ev.title}>
-            {ev.link ? (
-              <a href={ev.link} target="_blank" rel="noopener noreferrer">
-                {ev.title}
-              </a>
-            ) : (
-              ev.title
-            )}
-          </li>
-        ))}
-      </ul>
-
-      <h2>Education</h2>
-      <ul>
-        {education.map((e) => (
-          <li key={e.title + e.institution}>
-            <b>{e.title}</b>, {e.institution} ({e.period}) — {e.description}
-          </li>
-        ))}
-      </ul>
+      <fieldset>
+        <legend>Education</legend>
+        <ul>
+          {education.map((e) => (
+            <li key={e.title + e.institution}>
+              <b>{e.title}</b>, {e.institution} ({e.period}) — {e.description}
+            </li>
+          ))}
+        </ul>
+      </fieldset>
 
       <hr />
 
