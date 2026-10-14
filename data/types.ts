@@ -27,8 +27,9 @@ export interface Event {
 export interface PersonalInfo {
   name: string;
   title: string;
+  site?: string;
   email: string;
-  bio: string[];
+  bio: (string | string[])[];
 }
 
 export interface Community {

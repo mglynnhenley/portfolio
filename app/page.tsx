@@ -11,6 +11,18 @@ import {
 import { Project } from '@/data/types';
 import TapColors from '@/components/TapColors';
 
+function linkify(text: string) {
+  return text.split(/(https?:\/\/[^\s)]+)/).map((part, j) =>
+    /^https?:\/\//.test(part) ? (
+      <a key={j} href={part} target="_blank" rel="noopener noreferrer">
+        {part}
+      </a>
+    ) : (
+      part
+    )
+  );
+}
+
 function ProjectList({ items }: { items: Project[] }) {
   return (
     <ul>
@@ -35,21 +47,29 @@ export default function Home() {
     <main>
       <TapColors />
       <h1>{personalInfo.name}</h1>
-      <p>{personalInfo.title}</p>
+      <p>
+        {personalInfo.title}
+        {personalInfo.site ? (
+          <>
+            {' · '}
+            <a href={`https://${personalInfo.site}`} target="_blank" rel="noopener noreferrer">
+              {personalInfo.site}
+            </a>
+          </>
+        ) : null}
+      </p>
 
-      {personalInfo.bio.map((line, i) => (
-        <p key={i}>
-          {line.split(/(https?:\/\/[^\s)]+)/).map((part, j) =>
-            /^https?:\/\//.test(part) ? (
-              <a key={j} href={part} target="_blank" rel="noopener noreferrer">
-                {part}
-              </a>
-            ) : (
-              part
-            )
-          )}
-        </p>
-      ))}
+      {personalInfo.bio.map((line, i) =>
+        Array.isArray(line) ? (
+          <ul key={i}>
+            {line.map((item, j) => (
+              <li key={j}>{linkify(item)}</li>
+            ))}
+          </ul>
+        ) : (
+          <p key={i}>{linkify(line)}</p>
+        )
+      )}
 
       <fieldset>
         <legend>Now</legend>

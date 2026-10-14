@@ -2,20 +2,24 @@ import { PersonalInfo, Project, Experience, Education, Event, Community } from '
 
 export const personalInfo: PersonalInfo = {
   name: "matilda glynn-henley",
-  title: "building things · london",
+  title: "building things · san francisco",
+  site: "sonatalabs.ai",
   email: "matildaglynnh @ gmail dot com",
   bio: [
-    "I like building things. At the moment that's Sonata Labs (https://github.com/mglynnhenley/sonata-labs) — an open-source benchmark that clones a company into a fake Gmail, Slack and Calendar, runs an agent through a simulated workday inside it, and scores how much of the job it finished. The work is funded by a Coefficient Giving (previously Open Philanthropy) grant.",
-    "Before this I founded Parlia AI (a planning-policy tool), ran Pluto House (a hacker house in Paris), invested in pre-seed AI companies at Merantix Capital, and worked as a software engineer. I studied computer science at Oxford. I live in London.",
+    "I'm building long-horizon evals and benchmarks grounded in real-world data, on tasks where alignment and capabilities converge: where a more capable model is a more aligned one. I am currently funded by a Coefficient Giving transition grant.",
+    [
+      "impossible-assistant-bench: a model acting as a personal assistant gets read access to a user's email and the internet, while a 'world' LLM, voicing the target organisation from deep research into its policies, blocks every write. Task one: refund a train ticket outside the 28-day claim window.",
+      "port-incident-response-bench: built with a major UK port, recreating a three-week health and safety incident to evaluate how models handle incident response."
+    ],
+    "Before this I founded Parlia AI (a planning-policy tool), ran Pluto House (a hacker house in Paris), invested in pre-seed AI companies at Merantix Capital, and worked as a software engineer. I studied computer science at Oxford. I live in San Francisco.",
     "If you're building something, say hello: matildaglynnh @ gmail dot com. I'm also on GitHub (https://github.com/mglynnhenley) and LinkedIn (https://linkedin.com/in/matilda-glynn-henley)."
   ]
 };
 
 export const currentProjects: Project[] = [
   {
-    title: "Sonata Labs",
-    description: "Open-source agent benchmark: clone a company into a fake Gmail, Slack and Calendar, run your agent through a simulated workday, score how much of the job it finished",
-    link: "https://github.com/mglynnhenley/sonata-labs"
+    title: "Long-Horizon Evals",
+    description: "Benchmarks grounded in real-world data: impossible-assistant-bench and port-incident-response-bench"
   },
   {
     title: "Pre-Deployment Simulation Environments",
@@ -131,10 +135,10 @@ export const hackathons: Project[] = [
 
 export const experiences: Experience[] = [
   {
-    title: "Building Sonata Labs",
+    title: "Independent Researcher",
     company: "Coefficient Giving grant",
     period: "June 2026 – Present",
-    description: "Six months of funding to work on AI safety full-time; building an open-source agent benchmark"
+    description: "Six months of funding to work on AI safety full-time; building long-horizon evals and benchmarks"
   },
   {
     title: "Founder",
