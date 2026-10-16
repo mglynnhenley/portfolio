@@ -11,16 +11,19 @@ import {
 import { Project } from '@/data/types';
 import TapColors from '@/components/TapColors';
 
+// Turns bare URLs and [text](url) into links.
 function linkify(text: string) {
-  return text.split(/(https?:\/\/[^\s)]+)/).map((part, j) =>
-    /^https?:\/\//.test(part) ? (
-      <a key={j} href={part} target="_blank" rel="noopener noreferrer">
-        {part}
+  return text.split(/(\[[^\]]+\]\(https?:\/\/[^\s)]+\)|https?:\/\/[^\s)]+)/).map((part, j) => {
+    const md = part.match(/^\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)$/);
+    const [label, href] = md ? [md[1], md[2]] : [part, part];
+    return md || /^https?:\/\//.test(part) ? (
+      <a key={j} href={href} target="_blank" rel="noopener noreferrer">
+        {label}
       </a>
     ) : (
       part
-    )
-  );
+    );
+  });
 }
 
 function ProjectList({ items }: { items: Project[] }) {

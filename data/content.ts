@@ -8,7 +8,7 @@ export const personalInfo: PersonalInfo = {
   bio: [
     "I'm building long-horizon evals and benchmarks grounded in real-world data, on tasks where alignment and capabilities converge: where a more capable model is a more aligned one. I am currently funded by a Coefficient Giving transition grant.",
     [
-      "impossible-assistant-bench: a model acting as a personal assistant gets read access to a user's email and the internet, while a 'world' LLM, voicing the target organisation from deep research into its policies, blocks every write. Task one: refund a train ticket outside the 28-day claim window.",
+      "[impossible-assistant-bench](https://www.vals.ai/blogs/impossible-refund): a model acting as a personal assistant gets read access to a user's email and the internet, while a 'world' LLM, voicing the target organisation from deep research into its policies, blocks every write. Task one: refund a train ticket outside the 28-day claim window.",
       "port-incident-response-bench: built with a major UK port, recreating a three-week health and safety incident to evaluate how models handle incident response."
     ],
     "Before this I founded Parlia AI (a planning-policy tool), ran Pluto House (a hacker house in Paris), invested in pre-seed AI companies at Merantix Capital, and worked as a software engineer. I studied computer science at Oxford. I live in San Francisco.",
