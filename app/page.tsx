@@ -10,6 +10,8 @@ import {
 } from '@/data/content';
 import { Project } from '@/data/types';
 import TapColors from '@/components/TapColors';
+import KoiPond from '@/components/KoiPond';
+import ThemeToggle from '@/components/ThemeToggle';
 
 // Turns bare URLs and [text](url) into links.
 function linkify(text: string) {
@@ -49,6 +51,8 @@ export default function Home() {
   return (
     <main>
       <TapColors />
+      <KoiPond />
+      <ThemeToggle />
       <h1>{personalInfo.name}</h1>
       <p>
         {personalInfo.title}
