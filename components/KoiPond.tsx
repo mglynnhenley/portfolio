@@ -6,6 +6,9 @@ import { useEffect, useRef } from 'react';
 // Each fish is a chain of spine nodes; every frame the character grid around it is
 // sampled against the body outline and filled with glyphs. Click the background to
 // drop a pellet and the koi come to eat it.
+//
+// A sea turtle glides through too, after the tiled ASCII turtles in @stackedlol's ocean:
+// a patterned shell, paddling flippers, and a soft shadow on the pond floor.
 
 const CW = 8;
 const CH = 12;
@@ -16,23 +19,38 @@ const DIM_UNDER_PAGE = 0.12;
 const MIN_WIDTH = 768;
 
 const BODY_GLYPHS = '.:+*%#@';
+// Koi are plain coloured glyphs. Turtle cells are tiles of skin colour with a glyph etched on top.
+type Skin = { tile: string; ink: string };
 const LIGHT = {
   white: '#9a938b',
-  red: '#d9431c',
+  red: '#b8360f',
   black: '#1c1a1f',
-  fin: '#b5aea6',
   eye: '#000000',
+  fin: '#b5aea6',
   pellet: '#a8651f',
   ripple: '#0000ee',
+  shell: { tile: '#a6a062', ink: '#6b6736' },
+  scute: { tile: '#807b42', ink: '#4b4822' },
+  shellRim: { tile: '#c8c38b', ink: '#8a864f' },
+  skin: { tile: '#bfb88e', ink: '#76704c' },
+  turtleEye: { tile: '#bfb88e', ink: '#000000' },
+  shadow: '#000000',
 };
+// In the dark the translucent tiles sink into the background, so turtle glyphs are etched light.
 const DARK: typeof LIGHT = {
   white: '#e4ddd4',
-  red: '#ff6a3d',
+  red: '#e8552a',
   black: '#6e6a7c',
-  fin: '#8f8a84',
   eye: '#ffffff',
+  fin: '#8f8a84',
   pellet: '#e0a35c',
   ripple: '#7fa6ff',
+  shell: { tile: '#b3ae74', ink: '#ece8bf' },
+  scute: { tile: '#8f8a52', ink: '#cfca94' },
+  shellRim: { tile: '#d4d09f', ink: '#f6f3d6' },
+  skin: { tile: '#cbc5a0', ink: '#f2edcf' },
+  turtleEye: { tile: '#cbc5a0', ink: '#000000' },
+  shadow: '#000000',
 };
 
 type Patch = { s: number; v: number; rs: number; rv: number };
@@ -49,6 +67,25 @@ type Koi = {
   red: Patch[];
   black: Patch[];
 };
+type Turtle = {
+  x: number;
+  y: number;
+  heading: number;
+  turn: number;
+  phase: number;
+  size: number;
+};
+/** A glyph to draw: column, row, character, ink colour, alpha, and the tile behind it if any. */
+type Cell = [number, number, string, string, number, string?];
+
+const tiled = (col: number, row: number, ch: string, skin: Skin, alpha: number): Cell => [
+  col,
+  row,
+  ch,
+  skin.ink,
+  alpha,
+  skin.tile,
+];
 type Pellet = { x: number; y: number; age: number };
 type Ripple = { x: number; y: number; age: number };
 
@@ -129,6 +166,13 @@ function spawnKoi(x: number, y: number, small: boolean): Koi {
   };
 }
 
+// One per shell plate, etched into its tiles.
+const SHELL_GLYPHS = 'S%8tX$';
+
+function inEllipse(x: number, y: number, a: number, b: number) {
+  return (x / a) ** 2 + (y / b) ** 2 < 1;
+}
+
 export default function KoiPond() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -141,6 +185,7 @@ export default function KoiPond() {
     let width = 0;
     let height = 0;
     let koi: Koi[] = [];
+    let turtles: Turtle[] = [];
     const pellets: Pellet[] = [];
     const ripples: Ripple[] = [];
     let page = { left: 0, right: 0, top: 0, bottom: 0 };
@@ -169,10 +214,11 @@ export default function KoiPond() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       if (width < MIN_WIDTH) {
         koi = [];
+        turtles = [];
         return;
       }
       // A few full-size koi, plus one or two at about half size.
-      const big = Math.max(3, Math.min(5, Math.round((width * height) / 320000)));
+      const big = Math.max(2, Math.min(4, Math.round((width * height) / 400000)));
       const small = width >= 1200 ? 2 : 1;
       for (const [isSmall, target] of [[false, big], [true, small]] as const) {
         const kind = koi.filter((k) => k.small === isSmall);
@@ -182,6 +228,14 @@ export default function KoiPond() {
         }
         kind.length = target;
         koi = [...koi.filter((k) => k.small !== isSmall), ...kind];
+      }
+      // One adult turtle and a couple of babies.
+      if (turtles.length === 0) {
+        const babies = width >= 1200 ? 3 : 2;
+        turtles = [rand(150, 175), ...Array.from({ length: babies }, () => rand(72, 88))].map((size) => {
+          const p = spawnPoint();
+          return { x: p.x, y: p.y, heading: rand(0, Math.PI * 2), turn: 0, phase: rand(0, Math.PI * 2), size };
+        });
       }
     };
 
@@ -233,6 +287,16 @@ export default function KoiPond() {
             sx += (dx / d) * (1 - d / room);
             sy += (dy / d) * (1 - d / room);
           }
+        }
+      }
+      for (const t of turtles) {
+        const room = t.size * 0.75 + k.length * 0.3;
+        const dx = k.x - t.x;
+        const dy = k.y - t.y;
+        const d = Math.hypot(dx, dy);
+        if (d > 0 && d < room) {
+          sx += (dx / d) * (1 - d / room) * 2;
+          sy += (dy / d) * (1 - d / room) * 2;
         }
       }
       if (sx || sy) {
@@ -289,17 +353,67 @@ export default function KoiPond() {
       }
     };
 
-    const glyph = (col: number, row: number, ch: string, color: string, alpha: number) => {
+    const underPage = (col: number, row: number) => {
       const cx = col * CW + CW / 2;
       const cy = row * CH + CH / 2;
-      const under =
-        cx > page.left && cx < page.right && cy > page.top && cy < page.bottom ? DIM_UNDER_PAGE : 1;
-      ctx.globalAlpha = alpha * under;
+      return cx > page.left && cx < page.right && cy > page.top && cy < page.bottom;
+    };
+
+    const glyph = (col: number, row: number, ch: string, color: string, alpha: number) => {
+      ctx.globalAlpha = alpha * (underPage(col, row) ? DIM_UNDER_PAGE : 1);
       ctx.fillStyle = color;
-      ctx.fillText(ch, cx, cy);
+      ctx.fillText(ch, col * CW + CW / 2, row * CH + CH / 2);
+    };
+
+    // Each glyph on its tile, the mosaic look. Under the page there are no tiles,
+    // just a dimmed glyph in the tile colour so it still reads.
+    const drawTiled = (cells: Cell[]) => {
+      for (const [col, row, ch, ink, alpha, tile] of cells) {
+        if (underPage(col, row)) {
+          glyph(col, row, ch, tile ?? ink, alpha);
+          continue;
+        }
+        if (tile) {
+          ctx.globalAlpha = 0.6 * alpha;
+          ctx.fillStyle = tile;
+          ctx.fillRect(col * CW, row * CH, CW, CH);
+        }
+        glyph(col, row, ch, ink, alpha * 0.8);
+      }
+    };
+
+    // A soft shadow on the pond floor, offset down and right; none on the page itself.
+    // A soft shadow on the pond floor, kept off the page. `lift` (0..1) is how high the
+    // creature swims: higher means the shadow falls further down and right, softer and fainter.
+    const drawSoftShadow = (lift: number, shape: (ox: number, oy: number) => void) => {
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(0, 0, width, height);
+      ctx.rect(page.left, page.top, page.right - page.left, page.bottom - page.top);
+      ctx.clip('evenodd');
+      ctx.filter = `blur(${4 + 8 * lift}px)`;
+      ctx.globalAlpha = (COLORS === DARK ? 0.5 : 0.2) * (1 - 0.4 * lift);
+      ctx.fillStyle = COLORS.shadow;
+      ctx.beginPath();
+      shape(14 + 30 * lift, 18 + 38 * lift);
+      ctx.fill();
+      ctx.restore();
+    };
+
+    // A koi's shadow is its body silhouette; bigger koi swim higher.
+    const drawKoiShadow = (k: Koi) => {
+      const seg = k.length / (NODES - 1);
+      drawSoftShadow(Math.max(0, Math.min(1, (k.length - 75) / 135)), (ox, oy) => {
+        k.nodes.forEach((n, i) => {
+          const r = Math.max(2, halfWidth((i * seg) / k.length) * k.length);
+          ctx.moveTo(n.x + ox + r, n.y + oy);
+          ctx.arc(n.x + ox, n.y + oy, r, 0, Math.PI * 2);
+        });
+      });
     };
 
     const drawKoi = (k: Koi) => {
+      const cells: Cell[] = [];
       const L = k.length;
       const reach = L * 0.25;
       let minX = Infinity;
@@ -361,7 +475,7 @@ export default function KoiPond() {
           if (across < hw) {
             const depth = 1 - across / hw;
             if (s > 0.05 && s < 0.1 && across > hw * 0.4 && across < hw * 0.85) {
-              glyph(col, row, 'o', COLORS.eye, 1);
+              cells.push([col, row, 'o', COLORS.eye, 1]);
               continue;
             }
             const color = k.black.some((p) => inPatch(p, s, vn))
@@ -370,7 +484,7 @@ export default function KoiPond() {
                 ? COLORS.red
                 : COLORS.white;
             const ch = BODY_GLYPHS[Math.min(BODY_GLYPHS.length - 1, Math.floor(depth * BODY_GLYPHS.length))];
-            glyph(col, row, ch, color, 0.95);
+            cells.push([col, row, ch, color, 0.95]);
             continue;
           }
 
@@ -382,7 +496,7 @@ export default function KoiPond() {
               const ds = s - 0.8;
               const dx = tx * ds - ty * vn;
               const dy = ty * ds + tx * vn;
-              glyph(col, row, lineGlyph(dx, dy), COLORS.fin, 0.8);
+              cells.push([col, row, lineGlyph(dx, dy), COLORS.fin, 0.8]);
             }
             continue;
           }
@@ -395,11 +509,14 @@ export default function KoiPond() {
               const dv = vn - Math.sign(vn) * halfWidth(0.18);
               const dx = tx * ds - ty * dv;
               const dy = ty * ds + tx * dv;
-              glyph(col, row, lineGlyph(dx, dy), COLORS.fin, 0.7);
+              cells.push([col, row, lineGlyph(dx, dy), COLORS.fin, 0.7]);
             }
           }
         }
       }
+
+      drawKoiShadow(k);
+      drawTiled(cells);
     };
 
     const drawRipple = (r: Ripple) => {
@@ -418,6 +535,146 @@ export default function KoiPond() {
       }
     };
 
+    const moveTurtle = (t: Turtle, dt: number) => {
+      t.turn = Math.max(-1, Math.min(1, t.turn + rand(-1, 1) * dt * 1.5));
+      let heading = t.heading + t.turn * dt * 0.35;
+
+      // Give the koi a wide berth, and turn back from the screen edges.
+      let ax = 0;
+      let ay = 0;
+      for (const k of koi) {
+        const room = t.size * 0.6 + k.length * 0.5;
+        const dx = t.x - k.x;
+        const dy = t.y - k.y;
+        const d = Math.hypot(dx, dy);
+        if (d > 0 && d < room) {
+          ax += (dx / d) * (1 - d / room);
+          ay += (dy / d) * (1 - d / room);
+        }
+      }
+      for (const o of turtles) {
+        if (o === t) continue;
+        const room = (t.size + o.size) * 0.55;
+        const dx = t.x - o.x;
+        const dy = t.y - o.y;
+        const d = Math.hypot(dx, dy);
+        if (d > 0 && d < room) {
+          ax += (dx / d) * (1 - d / room);
+          ay += (dy / d) * (1 - d / room);
+        }
+      }
+      const m = t.size * 0.8;
+      ax += (t.x < m ? (m - t.x) / m : 0) - (t.x > width - m ? (t.x - width + m) / m : 0);
+      ay += (t.y < m ? (m - t.y) / m : 0) - (t.y > height - m ? (t.y - height + m) / m : 0);
+      if (ax || ay) {
+        heading += angleDiff(heading, Math.atan2(ay, ax)) * Math.min(1, dt * 2 * Math.min(1, Math.hypot(ax, ay)));
+      }
+
+      // Stay in the margins: bend up or down the margin when about to glide under the page.
+      const lx = t.x + Math.cos(heading) * t.size;
+      const pad = 20;
+      const outside = t.x < page.left - pad || t.x > page.right + pad;
+      if (outside && lx > page.left - pad && lx < page.right + pad) {
+        const away = t.x < (page.left + page.right) / 2 ? -0.6 : 0.6;
+        const along = Math.sin(heading) >= 0 ? 1 : -1;
+        heading += angleDiff(heading, Math.atan2(along, away)) * Math.min(1, dt * 1.5);
+      }
+
+      t.heading = heading;
+      // One slow stroke every few seconds; it surges on the power stroke and glides after.
+      t.phase += dt * 1.9;
+      const speed = 14 + 16 * Math.max(0, Math.sin(t.phase));
+      t.x += Math.cos(heading) * speed * dt;
+      t.y += Math.sin(heading) * speed * dt;
+    };
+
+    const drawTurtle = (t: Turtle) => {
+      const S = t.size;
+      const cos = Math.cos(t.heading);
+      const sin = Math.sin(t.heading);
+      const stroke = Math.sin(t.phase);
+      // Flipper angles from straight ahead toward the side (radians): the front pair sweeps
+      // back on the power stroke, the rear pair trails and flicks a little.
+      const front = 2.1 - stroke * 0.55;
+      const rear = 2.6 - stroke * 0.2;
+      const cells: Cell[] = [];
+
+      const reach = S * 0.75;
+      const c0 = Math.floor((t.x - reach) / CW);
+      const c1 = Math.ceil((t.x + reach) / CW);
+      const r0 = Math.floor((t.y - reach) / CH);
+      const r1 = Math.ceil((t.y + reach) / CH);
+      for (let row = r0; row <= r1; row++) {
+        for (let col = c0; col <= c1; col++) {
+          const px = col * CW + CW / 2 - t.x;
+          const py = row * CH + CH / 2 - t.y;
+          // Turtle frame: f forward along the heading, u across (positive to its right).
+          const f = px * cos + py * sin;
+          const u = -px * sin + py * cos;
+
+          const shellE = (f / (S * 0.36)) ** 2 + (u / (S * 0.28)) ** 2;
+          if (shellE < 1) {
+            // Scutes: a central row of plates flanked by two side rows, outlined darker.
+            const band = Math.abs(u) < S * 0.09 ? 0 : 1;
+            const along = (f + S * 0.36) / (S * (band ? 0.18 : 0.144));
+            const seam = Math.abs(along - Math.round(along)) < 0.09 || Math.abs(Math.abs(u) - S * 0.09) < S * 0.012;
+            if (shellE > 0.8) cells.push(tiled(col, row, ':', COLORS.shellRim, 1));
+            else if (seam) cells.push(tiled(col, row, '#', COLORS.scute, 1));
+            else {
+              // Each plate gets its own glyph, so the shell reads as a mosaic of scutes.
+              const plate = Math.floor(along) * 3 + (band ? (u > 0 ? 1 : 2) : 0);
+              cells.push(tiled(col, row, SHELL_GLYPHS[plate % SHELL_GLYPHS.length], COLORS.shell, 1));
+            }
+            continue;
+          }
+
+          // Head, with an eye on each side.
+          const hf = f - S * 0.43;
+          if (inEllipse(hf, u, S * 0.1, S * 0.075)) {
+            const eye = hf > 0 && Math.abs(Math.abs(u) - S * 0.04) < S * 0.02;
+            cells.push(tiled(col, row, eye ? 'o' : '@', eye ? COLORS.turtleEye : COLORS.skin, 1));
+            continue;
+          }
+          // Neck.
+          if (f > S * 0.3 && f < S * 0.4 && Math.abs(u) < S * 0.05) {
+            cells.push(tiled(col, row, '%', COLORS.skin, 1));
+            continue;
+          }
+
+          // Flippers: long front pair, short rear pair, mirrored across the spine.
+          const side = u >= 0 ? 1 : -1;
+          const au = Math.abs(u);
+          const flipper = (rootF: number, rootU: number, angle: number, len: number, wid: number) => {
+            const dx = f - rootF;
+            const dy = au - rootU;
+            const ca = Math.cos(angle);
+            const sa = Math.sin(angle);
+            const along2 = dx * ca + dy * sa;
+            const across2 = -dx * sa + dy * ca;
+            return along2 > 0 && inEllipse(along2 - len / 2, across2, len / 2, wid);
+          };
+          if (flipper(S * 0.2, S * 0.2, front, S * 0.42, S * 0.07)) {
+            cells.push(tiled(col, row, side > 0 ? '\\' : '/', COLORS.skin, 0.95));
+            continue;
+          }
+          if (flipper(-S * 0.26, S * 0.15, rear, S * 0.2, S * 0.055)) {
+            cells.push(tiled(col, row, '%', COLORS.skin, 0.9));
+            continue;
+          }
+          // Little tail.
+          if (f < -S * 0.34 && f > -S * 0.44 && au < S * 0.03 * (1 + (f + S * 0.34) / (S * 0.1))) {
+            cells.push(tiled(col, row, '.', COLORS.skin, 0.85));
+          }
+        }
+      }
+
+      // The adult swims higher than the babies.
+      drawSoftShadow(Math.max(0, Math.min(1, (S - 70) / 105)), (ox, oy) => {
+        for (const [col, row] of cells) ctx.rect(col * CW + ox, row * CH + oy, CW, CH);
+      });
+      drawTiled(cells);
+    };
+
     let raf = 0;
     let last = performance.now();
     const frame = (now: number) => {
@@ -427,6 +684,7 @@ export default function KoiPond() {
       COLORS = document.documentElement.dataset.theme === 'dark' ? DARK : LIGHT;
 
       for (const k of koi) steer(k, dt);
+      for (const t of turtles) moveTurtle(t, dt);
       for (const p of pellets) p.age += dt;
       for (const r of ripples) r.age += dt;
       while (pellets.length && pellets[0].age > PELLET_LIFE) pellets.shift();
@@ -440,6 +698,7 @@ export default function KoiPond() {
       for (const p of pellets) {
         glyph(Math.floor(p.x / CW), Math.floor(p.y / CH), '*', COLORS.pellet, Math.min(1, (PELLET_LIFE - p.age) / 2));
       }
+      for (const t of turtles) drawTurtle(t);
       for (const k of koi) drawKoi(k);
       ctx.globalAlpha = 1;
 
