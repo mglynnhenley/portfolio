@@ -142,6 +142,20 @@ export default function Home() {
       <hr />
 
       <p>Email: {personalInfo.email}</p>
+
+      <p>
+        <small>
+          The koi are inspired by{' '}
+          <a href="https://github.com/Dao-Ho/portfolio" target="_blank" rel="noopener noreferrer">
+            Dao Ho&apos;s koi pond
+          </a>
+          ; the turtles by{' '}
+          <a href="https://x.com/stackedlol" target="_blank" rel="noopener noreferrer">
+            @stackedlol
+          </a>
+          &apos;s ASCII ocean.
+        </small>
+      </p>
     </main>
   );
 }

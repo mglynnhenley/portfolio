@@ -36,7 +36,7 @@ const LIGHT = {
   turtleEye: { tile: '#bfb88e', ink: '#000000' },
   shadow: '#000000',
 };
-// In the dark the translucent tiles sink into the background, so turtle glyphs are etched light.
+// At night the turtle drops its tiles and, like the koi, is drawn as bare glyphs.
 const DARK: typeof LIGHT = {
   white: '#e4ddd4',
   red: '#e8552a',
@@ -45,11 +45,11 @@ const DARK: typeof LIGHT = {
   fin: '#8f8a84',
   pellet: '#e0a35c',
   ripple: '#7fa6ff',
-  shell: { tile: '#b3ae74', ink: '#ece8bf' },
-  scute: { tile: '#8f8a52', ink: '#cfca94' },
-  shellRim: { tile: '#d4d09f', ink: '#f6f3d6' },
-  skin: { tile: '#cbc5a0', ink: '#f2edcf' },
-  turtleEye: { tile: '#cbc5a0', ink: '#000000' },
+  shell: { tile: '#cfc472', ink: '#cfc472' },
+  scute: { tile: '#968c45', ink: '#968c45' },
+  shellRim: { tile: '#e6dea6', ink: '#e6dea6' },
+  skin: { tile: '#d8cfa3', ink: '#d8cfa3' },
+  turtleEye: { tile: '#ffffff', ink: '#ffffff' },
   shadow: '#000000',
 };
 
@@ -365,11 +365,11 @@ export default function KoiPond() {
       ctx.fillText(ch, col * CW + CW / 2, row * CH + CH / 2);
     };
 
-    // Each glyph on its tile, the mosaic look. Under the page there are no tiles,
-    // just a dimmed glyph in the tile colour so it still reads.
+    // Each glyph on its tile, the mosaic look (light mode only).
     const drawTiled = (cells: Cell[]) => {
       for (const [col, row, ch, ink, alpha, tile] of cells) {
-        if (underPage(col, row)) {
+        // In dark mode and under the page, no tile: just the glyph in the tile colour.
+        if (COLORS === DARK || underPage(col, row)) {
           glyph(col, row, ch, tile ?? ink, alpha);
           continue;
         }
@@ -382,7 +382,6 @@ export default function KoiPond() {
       }
     };
 
-    // A soft shadow on the pond floor, offset down and right; none on the page itself.
     // A soft shadow on the pond floor, kept off the page. `lift` (0..1) is how high the
     // creature swims: higher means the shadow falls further down and right, softer and fainter.
     const drawSoftShadow = (lift: number, shape: (ox: number, oy: number) => void) => {
