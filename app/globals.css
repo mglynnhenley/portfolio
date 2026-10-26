@@ -27,11 +27,6 @@
   --hover-fg: #000000;
   --pond: #102a4c;
   --pond-deep: #06152b;
-  --tint-1: #2b2b00;
-  --tint-2: #002b2b;
-  --tint-3: #2b002b;
-  --tint-4: #002b00;
-  --tint-5: #2b1a00;
   color-scheme: dark;
 }
 
@@ -61,12 +56,13 @@ fieldset {
   background: var(--bg);
 }
 
-/* Tap-to-tint, set by TapColors. */
+/* Tap-to-tint, set by TapColors. Light mode only. */
 [data-tint="1"] { background: var(--tint-1); }
 [data-tint="2"] { background: var(--tint-2); }
 [data-tint="3"] { background: var(--tint-3); }
 [data-tint="4"] { background: var(--tint-4); }
 [data-tint="5"] { background: var(--tint-5); }
+:root[data-theme="dark"] [data-tint] { background: var(--bg); }
 
 legend {
   font-weight: bold;

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 
-// Tap a box to cycle it through retro tints (defined per theme in globals.css).
+// Tap a box to cycle it through retro tints (light mode only; see globals.css).
 // Everything defaults to plain; a full cycle returns to plain.
 const TINTS = 6;
 
@@ -11,6 +11,7 @@ export default function TapColors() {
     const onClick = (e: MouseEvent) => {
       const target = e.target as Element | null;
       if (!target || target.closest('a, button')) return;
+      if (document.documentElement.dataset.theme === 'dark') return;
 
       // Innermost bordered box wins: fieldset → main frame. The page background is left to the koi.
       const box = (target.closest('fieldset') ?? target.closest('main')) as HTMLElement | null;
