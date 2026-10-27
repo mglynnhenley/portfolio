@@ -16,6 +16,10 @@ const CH = 12;
 const NODES = 10;
 // Most a koi's spine can bend at one joint, in radians.
 const MAX_BEND = 0.32;
+// The player's koi: top speed and idle drift (px/s), and fastest turn (rad/s).
+const PLAYER_TOP_SPEED = 230;
+const PLAYER_IDLE_SPEED = 22;
+const PLAYER_TURN = 3.4;
 const font = (scale = 1) => `bold ${12 * scale}px 'Courier New', Courier, monospace`;
 // Koi swimming under the page box stay faintly visible behind the text.
 const DIM_UNDER_PAGE = 0.12;
@@ -297,12 +301,20 @@ export default function KoiPond() {
       if (keys.has('arrowup') || keys.has('w')) dy -= 1;
       if (keys.has('arrowdown') || keys.has('s')) dy += 1;
 
+      // Swim like a fish, not a cursor: it has momentum, turns in arcs at a limited rate, and
+      // each tail beat gives a push, so it surges and glides rather than moving at a flat speed.
       let heading = k.heading;
-      let speed = 18;
+      let speed = k.speed;
       if (dx || dy) {
-        heading += angleDiff(heading, Math.atan2(dy, dx)) * Math.min(1, dt * 5);
-        speed = 110;
+        const turn = angleDiff(heading, Math.atan2(dy, dx));
+        heading += Math.sign(turn) * Math.min(Math.abs(turn), PLAYER_TURN * dt);
+        const beat = 0.55 + 0.45 * Math.max(0, Math.sin(k.phase));
+        speed += (PLAYER_TOP_SPEED - speed) * Math.min(1, dt * 3.2 * beat);
+      } else {
+        // Let go and it glides to an idle drift.
+        speed += (PLAYER_IDLE_SPEED - speed) * Math.min(1, dt * 1.1);
       }
+      k.speed = speed;
 
       // It eats pellets too.
       for (const p of pellets) {
@@ -321,10 +333,10 @@ export default function KoiPond() {
     const setPlayer = (on: boolean) => {
       koi = koi.filter((k) => !k.player);
       if (!on || width < MIN_WIDTH) return;
-      // Appear in the margin right beside the toggle (top right of the page box), in view.
+      // Appear just below the toggle, in the top right corner of the window.
       measurePage();
-      const x = Math.min(width - 60, page.right + Math.max(60, (width - page.right) / 2));
-      koi.push({ ...spawnKoi(x, 140, false), length: 150, player: true });
+      const x = Math.max(page.right + 40, width - 90);
+      koi.push({ ...spawnKoi(x, 130, false), length: 150, speed: PLAYER_IDLE_SPEED, player: true });
     };
     const onPlayer = (e: Event) => setPlayer((e as CustomEvent<boolean>).detail);
     const playing = () => koi.some((k) => k.player);

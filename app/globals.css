@@ -121,6 +121,30 @@ a:visited:hover {
   background: none;
 }
 
+/* "be a fish" sits out in the pond, pinned to the top right corner of the window. */
+.fish-toggle {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  z-index: 20;
+  font-size: 14px;
+}
+
+.fish-toggle button {
+  font: inherit;
+  color: var(--link);
+  background: none;
+  border: none;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.fish-toggle button:hover {
+  background: var(--link);
+  color: var(--hover-fg);
+}
+
 /* No pond on small screens or with reduced motion, so no fish to be. */
 @media (max-width: 767px), (prefers-reduced-motion: reduce) {
   .fish-toggle {

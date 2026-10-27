@@ -51,11 +51,11 @@ function ProjectList({ items }: { items: Project[] }) {
 export default function Home() {
   return (
     <main>
+      <FishToggle />
       <TapColors />
       <KoiPond />
       <div className="page-controls">
         <ThemeToggle />
-        <FishToggle />
       </div>
       <h1>{personalInfo.name}</h1>
       <p>

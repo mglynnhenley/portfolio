@@ -17,7 +17,6 @@ export default function FishToggle() {
 
   return (
     <span className="fish-toggle">
-      {' · '}
       <button
         type="button"
         onClick={toggle}
