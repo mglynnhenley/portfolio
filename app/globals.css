@@ -89,15 +89,15 @@ a:visited:hover {
   color: var(--hover-fg);
 }
 
-/* Theme switch: two link-styled buttons in the top corner of the page box. */
-.theme-toggle {
+/* Page controls: link-styled buttons in the top corner of the page box. */
+.page-controls {
   position: absolute;
   top: 12px;
   right: 16px;
   font-size: 14px;
 }
 
-.theme-toggle button {
+.page-controls button {
   font: inherit;
   color: var(--link);
   background: none;
@@ -107,18 +107,25 @@ a:visited:hover {
   cursor: pointer;
 }
 
-.theme-toggle button:hover {
+.page-controls button:hover {
   background: var(--link);
   color: var(--hover-fg);
 }
 
-:root:not([data-theme="dark"]) .theme-toggle .light,
-:root[data-theme="dark"] .theme-toggle .dark {
+:root:not([data-theme="dark"]) .page-controls .light,
+:root[data-theme="dark"] .page-controls .dark {
   color: var(--fg);
   font-weight: bold;
   text-decoration: none;
   cursor: default;
   background: none;
+}
+
+/* No pond on small screens or with reduced motion, so no fish to be. */
+@media (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .fish-toggle {
+    display: none;
+  }
 }
 
 h1, h2, h3, h4 {

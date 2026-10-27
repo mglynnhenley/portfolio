@@ -13,7 +13,7 @@ function setTheme(theme: Theme) {
 
 export default function ThemeToggle() {
   return (
-    <div className="theme-toggle">
+    <>
       <button type="button" className="light" onClick={() => setTheme('light')}>
         light
       </button>
@@ -21,6 +21,6 @@ export default function ThemeToggle() {
       <button type="button" className="dark" onClick={() => setTheme('dark')}>
         dark
       </button>
-    </div>
+    </>
   );
 }
